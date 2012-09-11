@@ -19,7 +19,14 @@ AUTOMAKE_OPTIONS = foreign 1.4
 
 SUBDIRS = src desktop pixmaps po sound
 
-EXTRA_DIST = Makefile.cvs protocol style
+EXTRA_DIST =			\
+	Makefile.cvs		\
+	protocol		\
+	style			\
+	AUTHORS			\
+	README			\
+	COPYING			\
+	HISTORY
 
 # When doing 'make dist' update a few files automatically
 dist-hook:
