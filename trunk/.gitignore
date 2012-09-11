@@ -76,3 +76,17 @@ GTAGS
 *.orig
 *~
 \#*#
+
+Makefile
+Makefile.in
+/aclocal.m4
+/autom4te.cache
+/config.h
+/config.log
+/config.status
+/configure
+
+/src/iptux
+/src/uninstall/ihateiptux
+/stamp-h1
+/po/POTFILES
