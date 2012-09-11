@@ -1,0 +1,40 @@
+iptux is a LAN communication tool.
+
+For discussion, development, patches, etc. please use the mailing
+list:
+
+	https://lists.sourceforge.net/lists/listinfo/iptux-devel
+
+	subscribe the mail list, and send emails to
+
+		iptux-devel@lists.sourceforge.net
+
+
+Requirements
+----------------------------------------------------------------------
+
+
+
+Building
+----------------------------------------------------------------------
+
+
+
+Note on using clang (from LLVM) instead of GCC
+----------------------------------------------------------------------
+
+
+
+Note on using non-x86 architectures
+----------------------------------------------------------------------
+
+
+
+Copyright and license information
+----------------------------------------------------------------------
+
+The programs are distributed under the GPLv2+. Please see the files
+COPYING for full license information.
+
+
+Maintained by: Wanlong Gao <gaowanlong@cn.fujitsu.com>
