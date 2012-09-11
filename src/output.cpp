@@ -25,23 +25,23 @@
  * @param format as in printf()
  * @param ...
  */
-void pop_info(GtkWidget *parent, const gchar *format, ...)
+void pop_info(GtkWidget * parent, const gchar * format, ...)
 {
-        GtkWidget *dialog;
-        gchar *msg;
-        va_list ap;
+	GtkWidget *dialog;
+	gchar *msg;
+	va_list ap;
 
-        va_start(ap, format);
-        msg = g_strdup_vprintf(format, ap);
-        va_end(ap);
-        dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
-                         GTK_DIALOG_MODAL,  GTK_MESSAGE_INFO,
-                         GTK_BUTTONS_OK, NULL);
-        gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), msg);
-        g_free(msg);
-        gtk_window_set_title(GTK_WINDOW(dialog), _("Infomation"));
-        gtk_dialog_run(GTK_DIALOG(dialog));
-        gtk_widget_destroy(dialog);
+	va_start(ap, format);
+	msg = g_strdup_vprintf(format, ap);
+	va_end(ap);
+	dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
+					GTK_DIALOG_MODAL, GTK_MESSAGE_INFO,
+					GTK_BUTTONS_OK, NULL);
+	gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), msg);
+	g_free(msg);
+	gtk_window_set_title(GTK_WINDOW(dialog), _("Infomation"));
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
 }
 
 /**
@@ -50,23 +50,23 @@ void pop_info(GtkWidget *parent, const gchar *format, ...)
  * @param format as in printf()
  * @param ...
  */
-void pop_warning(GtkWidget *parent, const gchar *format, ...)
+void pop_warning(GtkWidget * parent, const gchar * format, ...)
 {
-        GtkWidget *dialog;
-        gchar *msg;
-        va_list ap;
+	GtkWidget *dialog;
+	gchar *msg;
+	va_list ap;
 
-        va_start(ap, format);
-        msg = g_strdup_vprintf(format, ap);
-        va_end(ap);
-        dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
-                         GTK_DIALOG_MODAL, GTK_MESSAGE_INFO,
-                         GTK_BUTTONS_OK, NULL);
-        gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), msg);
-        g_free(msg);
-        gtk_window_set_title(GTK_WINDOW(dialog), _("Warning"));
-        gtk_dialog_run(GTK_DIALOG(dialog));
-        gtk_widget_destroy(dialog);
+	va_start(ap, format);
+	msg = g_strdup_vprintf(format, ap);
+	va_end(ap);
+	dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
+					GTK_DIALOG_MODAL, GTK_MESSAGE_INFO,
+					GTK_BUTTONS_OK, NULL);
+	gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), msg);
+	g_free(msg);
+	gtk_window_set_title(GTK_WINDOW(dialog), _("Warning"));
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
 }
 
 /**
@@ -74,21 +74,20 @@ void pop_warning(GtkWidget *parent, const gchar *format, ...)
  * @param format as in printf()
  * @param ...
  */
-void pop_error(const gchar *format, ...)
+void pop_error(const gchar * format, ...)
 {
-        GtkWidget *dialog;
-        gchar *msg;
-        va_list ap;
+	GtkWidget *dialog;
+	gchar *msg;
+	va_list ap;
 
-        va_start(ap, format);
-        msg = g_strdup_vprintf(format, ap);
-        va_end(ap);
-        dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
-                         GTK_MESSAGE_INFO, GTK_BUTTONS_OK, NULL);
-        gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), msg);
-        g_free(msg);
-        gtk_window_set_title(GTK_WINDOW(dialog), _("Error"));
-        gtk_dialog_run(GTK_DIALOG(dialog));
-        gtk_widget_destroy(dialog);
+	va_start(ap, format);
+	msg = g_strdup_vprintf(format, ap);
+	va_end(ap);
+	dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+					GTK_MESSAGE_INFO, GTK_BUTTONS_OK, NULL);
+	gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), msg);
+	g_free(msg);
+	gtk_window_set_title(GTK_WINDOW(dialog), _("Error"));
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
 }
-

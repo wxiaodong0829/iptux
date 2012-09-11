@@ -26,12 +26,12 @@
 
 class RecvFile {
 public:
-        RecvFile();
-        ~RecvFile();
-        static void RecvEntry(GData *para);
+	RecvFile();
+	~RecvFile();
+	static void RecvEntry(GData * para);
 private:
-        void ParseFilePara(GData **para);
-        FileInfo *DivideFileinfo(char **extra);
+	void ParseFilePara(GData ** para);
+	FileInfo *DivideFileinfo(char **extra);
 };
 
 #endif

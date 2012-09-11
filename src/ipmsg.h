@@ -103,9 +103,9 @@
 #define IPMSG_SIGN_SHA1         0x20000000UL
 
 /* compatibilty for Win beta version */
-#define IPMSG_RC2_40OLD         0x00000010UL    // for beta1-4 only
-#define IPMSG_RC2_128OLD                0x00000040UL    // for beta1-4 only
-#define IPMSG_BLOWFISH_128OLD   0x00000400UL    // for beta1-4 only
+#define IPMSG_RC2_40OLD         0x00000010UL	// for beta1-4 only
+#define IPMSG_RC2_128OLD                0x00000040UL	// for beta1-4 only
+#define IPMSG_BLOWFISH_128OLD   0x00000400UL	// for beta1-4 only
 #define IPMSG_RC2_40ALL         (IPMSG_RC2_40|IPMSG_RC2_40OLD)
 #define IPMSG_RC2_128ALL                (IPMSG_RC2_128|IPMSG_RC2_128OLD)
 #define IPMSG_BLOWFISH_128ALL   (IPMSG_BLOWFISH_128|IPMSG_BLOWFISH_128OLD)
@@ -113,38 +113,38 @@
 /* file types for fileattach command */
 #define IPMSG_FILE_REGULAR              0x00000001UL
 #define IPMSG_FILE_DIR                  0x00000002UL
-#define IPMSG_FILE_RETPARENT            0x00000003UL    // return parent directory
+#define IPMSG_FILE_RETPARENT            0x00000003UL	// return parent directory
 #define IPMSG_FILE_SYMLINK              0x00000004UL
-#define IPMSG_FILE_CDEV         0x00000005UL    // for UNIX
-#define IPMSG_FILE_BDEV         0x00000006UL    // for UNIX
-#define IPMSG_FILE_FIFO         0x00000007UL    // for UNIX
-#define IPMSG_FILE_RESFORK              0x00000010UL    // for Mac
+#define IPMSG_FILE_CDEV         0x00000005UL	// for UNIX
+#define IPMSG_FILE_BDEV         0x00000006UL	// for UNIX
+#define IPMSG_FILE_FIFO         0x00000007UL	// for UNIX
+#define IPMSG_FILE_RESFORK              0x00000010UL	// for Mac
 
 /* file attribute options for fileattach command */
 #define IPMSG_FILE_RONLYOPT             0x00000100UL
 #define IPMSG_FILE_HIDDENOPT            0x00001000UL
-#define IPMSG_FILE_EXHIDDENOPT  0x00002000UL    // for MacOS X
+#define IPMSG_FILE_EXHIDDENOPT  0x00002000UL	// for MacOS X
 #define IPMSG_FILE_ARCHIVEOPT   0x00004000UL
 #define IPMSG_FILE_SYSTEMOPT    0x00008000UL
 
 /* extend attribute types for fileattach command */
 #define IPMSG_FILE_UID                  0x00000001UL
-#define IPMSG_FILE_USERNAME             0x00000002UL    // uid by string
+#define IPMSG_FILE_USERNAME             0x00000002UL	// uid by string
 #define IPMSG_FILE_GID                  0x00000003UL
-#define IPMSG_FILE_GROUPNAME    0x00000004UL    // gid by string
-#define IPMSG_FILE_PERM         0x00000010UL    // for UNIX
-#define IPMSG_FILE_MAJORNO              0x00000011UL    // for UNIX devfile
-#define IPMSG_FILE_MINORNO              0x00000012UL    // for UNIX devfile
-#define IPMSG_FILE_CTIME                0x00000013UL    // for UNIX
+#define IPMSG_FILE_GROUPNAME    0x00000004UL	// gid by string
+#define IPMSG_FILE_PERM         0x00000010UL	// for UNIX
+#define IPMSG_FILE_MAJORNO              0x00000011UL	// for UNIX devfile
+#define IPMSG_FILE_MINORNO              0x00000012UL	// for UNIX devfile
+#define IPMSG_FILE_CTIME                0x00000013UL	// for UNIX
 #define IPMSG_FILE_MTIME                0x00000014UL
 #define IPMSG_FILE_ATIME                0x00000015UL
 #define IPMSG_FILE_CREATETIME   0x00000016UL
-#define IPMSG_FILE_CREATOR              0x00000020UL    // for Mac
-#define IPMSG_FILE_FILETYPE             0x00000021UL    // for Mac
-#define IPMSG_FILE_FINDERINFO   0x00000022UL    // for Mac
+#define IPMSG_FILE_CREATOR              0x00000020UL	// for Mac
+#define IPMSG_FILE_FILETYPE             0x00000021UL	// for Mac
+#define IPMSG_FILE_FINDERINFO   0x00000022UL	// for Mac
 #define IPMSG_FILE_ACL          0x00000030UL
-#define IPMSG_FILE_ALIASFNAME   0x00000040UL    // alias fname
-#define IPMSG_FILE_UNICODEFNAME         0x00000041UL    // UNICODE fname
+#define IPMSG_FILE_ALIASFNAME   0x00000040UL	// alias fname
+#define IPMSG_FILE_UNICODEFNAME         0x00000041UL	// UNICODE fname
 
 #define FILELIST_SEPARATOR              '\a'
 #define HOSTLIST_SEPARATOR              '\a'
