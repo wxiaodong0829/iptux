@@ -2,6 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_INIT(iptux, 0.5.3, jallyx@gmail.com)
+AC_CONFIG_AUX_DIR(build-aux)
 AM_MAINTAINER_MODE
 AC_CONFIG_SRCDIR(config.h.in)
 AC_CONFIG_HEADERS(config.h)
