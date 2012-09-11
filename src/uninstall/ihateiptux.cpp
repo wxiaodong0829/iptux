@@ -21,7 +21,7 @@
 #  include <config.h>
 #endif
 #include "utils.h"
-#include "../sys.h"
+#include "sys.h"
 
 int main(int argc, char *argv[])
 {

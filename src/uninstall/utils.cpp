@@ -10,7 +10,7 @@
 //
 //
 #include "utils.h"
-#include "../sys.h"
+#include "sys.h"
 #define MAX_PATHLEN 1024
 
 void check_privileged()
