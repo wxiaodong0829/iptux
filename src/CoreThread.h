@@ -1,19 +1,30 @@
-//
-// C++ Interface: CoreThread
-//
-// Description:
-// 程序中的核心线程类，实际上也被设计成了所有底层核心数据的中心点，
-// 所有数据的更新、查询、插入、删除都必须通过本类接口才能完成。
-// -----------------------------------------------------
-//2012.02:把文件传送的核心数据全部放在CoreThread类。
-// prlist不变,增加ecsList来存放好友发来文件.
-//------------------------------------------------------
-// Author: cwll <cwll2009@126.com>, (C) 2012
-//         Jally <jallyx@163.com>, (C) 2008
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
+/* iptux
+ * Copyright (C) 2008 Jally <jallyx@163.com>
+ * Copyright (C) 2012 cwll <cwll2009@126.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * Description:
+ * 程序中的核心线程类，实际上也被设计成了所有底层核心数据的中心点，
+ * 所有数据的更新、查询、插入、删除都必须通过本类接口才能完成。
+ *
+ * 2012.02:把文件传送的核心数据全部放在CoreThread类。
+ * prlist不变,增加ecsList来存放好友发来文件.
+ *
+ */
+
 #ifndef CORETHREAD_H
 #define CORETHREAD_H
 
