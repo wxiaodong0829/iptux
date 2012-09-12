@@ -127,3 +127,13 @@ AC_CONFIG_FILES([Makefile
 		 src/Makefile
 		 src/uninstall/Makefile])
 AC_OUTPUT
+dnl Produce summary.
+echo "------------------------------------------------------------"
+echo "Please report bugs back to the mailing list:"
+echo "https://lists.sourceforge.net/lists/listinfo/iptux-devel"
+echo "iptux-devel@lists.sourceforge.net"
+echo
+echo "Maintained by: Wanlong Gao <gaowanlong@cn.fujitsu.com>"
+echo
+echo "Next you should type 'make' to build the package,"
+echo "------------------------------------------------------------"
