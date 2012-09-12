@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT([iptux], [0.5.3], [gaowanlong@cn.fujitsu.com])
+AC_INIT([iptux], [1.0], [gaowanlong@cn.fujitsu.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_MAINTAINER_MODE
 AC_CONFIG_SRCDIR([config.h.in])
