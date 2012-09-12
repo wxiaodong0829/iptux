@@ -1,3 +1,4 @@
+#!/bin/bash -
 # iptux
 # Copyright (C) 2012 Wanlong Gao <gaowanlong@cn.fujitsu.com>
 #
@@ -14,22 +15,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Rebuild the autotools environment.
 
-AUTOMAKE_OPTIONS = foreign 1.4
+set -e
+set -v
 
-SUBDIRS = src desktop pixmaps po sound
+autoreconf --verbose --install
 
-EXTRA_DIST =			\
-	Makefile.cvs		\
-	autogen.sh		\
-	protocol		\
-	style			\
-	AUTHORS			\
-	README			\
-	COPYING			\
-	HISTORY
+CONFIGUREDIR=.
 
-# When doing 'make dist' update a few files automatically
-dist-hook:
-	git log --pretty="format:%an <%ae>" | sort -u | uniq -w 10 > AUTHORS-t
-	mv AUTHORS-t AUTHORS
+# Run configure in BUILDDIR if it's set
+if [ ! -z "$BUILDDIR" ]; then
+    mkdir -p $BUILDDIR
+    cd $BUILDDIR
+
+    CONFIGUREDIR=..
+fi
+
+# If no arguments were specified and configure has run before, use the previous
+# arguments
+if test $# == 0 && test -x ./config.status; then
+    ./config.status --recheck
+else
+    $CONFIGUREDIR/configure "$@"
+fi
