@@ -1,11 +1,11 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT(iptux, 0.5.3, jallyx@gmail.com)
-AC_CONFIG_AUX_DIR(build-aux)
+AC_INIT([iptux], [0.5.3], [gaowanlong@cn.fujitsu.com])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_MAINTAINER_MODE
-AC_CONFIG_SRCDIR(config.h.in)
-AC_CONFIG_HEADERS(config.h)
+AC_CONFIG_SRCDIR([config.h.in])
+AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE(foreign dist-bzip2 -Wall)
 
 # Checks for programs.
@@ -20,9 +20,9 @@ AC_PROG_RANLIB
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS(arpa/inet.h fcntl.h inttypes.h libintl.h locale.h \
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h inttypes.h libintl.h locale.h \
                  netinet/in.h stdint.h stdlib.h string.h strings.h \
-                 sys/ioctl.h sys/socket.h sys/time.h sys/vfs.h unistd.h)
+                 sys/ioctl.h sys/socket.h sys/time.h sys/vfs.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
@@ -37,9 +37,9 @@ AC_TYPE_UINT8_T
 
 # Checks for library functions.
 AC_FUNC_FORK
-AC_CHECK_FUNCS(bzero endpwent getcwd gettimeofday inet_ntoa memchr memmove \
+AC_CHECK_FUNCS([bzero endpwent getcwd gettimeofday inet_ntoa memchr memmove \
                mkdir rmdir setlocale socket strcasecmp strchr strerror \
-               strncasecmp strpbrk strrchr strspn)
+               strncasecmp strpbrk strrchr strspn])
 
 AC_DEFINE(__IP_TUX__)
 AC_ARG_ENABLE([message],
@@ -119,5 +119,11 @@ dnl Add the languages which your application supports here.
 ALL_LINGUAS="de en_GB es pl zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
-AC_OUTPUT(Makefile desktop/Makefile pixmaps/Makefile po/Makefile.in sound/Makefile \
-	src/Makefile src/uninstall/Makefile)
+AC_CONFIG_FILES([Makefile
+		 desktop/Makefile
+		 pixmaps/Makefile
+		 po/Makefile.in
+		 sound/Makefile
+		 src/Makefile
+		 src/uninstall/Makefile])
+AC_OUTPUT
