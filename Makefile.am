@@ -33,5 +33,5 @@ EXTRA_DIST =			\
 
 # When doing 'make dist' update a few files automatically
 dist-hook:
-	git log --pretty="format:%an <%ae>" | sort -u | uniq -w 10 > AUTHORS-t
+	git shortlog -se | awk -F'\t' '{print $$2}' > AUTHORS-t
 	mv AUTHORS-t AUTHORS
