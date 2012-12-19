@@ -20,8 +20,7 @@ my_entry::~my_entry()
 {
 }
 
-GtkWidget *my_entry::create_entry(const char *text, const char *tip,
-				  bool digital)
+GtkWidget *my_entry::create_entry(const char *text, const char *tip, bool digital)
 {
 	GtkWidget *entry;
 
@@ -35,16 +34,14 @@ GtkWidget *my_entry::create_entry(const char *text, const char *tip,
 				 G_CALLBACK(QueryTooltip), (gpointer) tip);
 	}
 	if (digital)
-		g_signal_connect(entry, "insert-text",
-				 G_CALLBACK(InsertText), NULL);
+		g_signal_connect(entry, "insert-text", G_CALLBACK(InsertText), NULL);
 	gtk_widget_show(entry);
 
 	return entry;
 }
 
 gboolean my_entry::QueryTooltip(GtkWidget * widget, gint x, gint y,
-				gboolean key, GtkTooltip * tooltip,
-				gpointer data)
+				gboolean key, GtkTooltip * tooltip, gpointer data)
 {
 	GtkWidget *label;
 

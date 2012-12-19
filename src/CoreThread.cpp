@@ -158,8 +158,7 @@ void CoreThread::InsertMessage(MsgPara * para)
 	if (grpinf) {
 		InsertMsgToGroupInfoItem(grpinf, para);
 		if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->OnNewMessageComing();
 		}
@@ -307,8 +306,7 @@ void CoreThread::ClearAllPalFromList()
 		g_slist_free(grpinf->member);
 		grpinf->member = NULL;
 		if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->ClearAllPalData();
 		}
@@ -321,8 +319,7 @@ void CoreThread::ClearAllPalFromList()
 		g_slist_free(grpinf->member);
 		grpinf->member = NULL;
 		if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->ClearAllPalData();
 		}
@@ -335,8 +332,7 @@ void CoreThread::ClearAllPalFromList()
 		g_slist_free(grpinf->member);
 		grpinf->member = NULL;
 		if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->ClearAllPalData();
 		}
@@ -349,8 +345,7 @@ void CoreThread::ClearAllPalFromList()
 		g_slist_free(grpinf->member);
 		grpinf->member = NULL;
 		if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->ClearAllPalData();
 		}
@@ -448,8 +443,7 @@ void CoreThread::UpdatePalToList(in_addr_t ipv4)
 		if (!g_slist_find(grpinf->member, pal)) {
 			AttachPalToGroupInfoItem(grpinf, pal);
 		} else if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->UpdatePalData(pal);
 		}
@@ -463,8 +457,7 @@ void CoreThread::UpdatePalToList(in_addr_t ipv4)
 		if (!g_slist_find(grpinf->member, pal)) {
 			AttachPalToGroupInfoItem(grpinf, pal);
 		} else if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->UpdatePalData(pal);
 		}
@@ -481,8 +474,7 @@ void CoreThread::UpdatePalToList(in_addr_t ipv4)
 				grpinf = AttachPalGroupItem(pal);
 			AttachPalToGroupInfoItem(grpinf, pal);
 		} else if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->UpdatePalData(pal);
 		}
@@ -496,8 +488,7 @@ void CoreThread::UpdatePalToList(in_addr_t ipv4)
 		if (!g_slist_find(grpinf->member, pal)) {
 			AttachPalToGroupInfoItem(grpinf, pal);
 		} else if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->UpdatePalData(pal);
 		}
@@ -1213,8 +1204,7 @@ void CoreThread::DelPalFromGroupInfoItem(GroupInfo * grpinf, PalInfo * pal)
 	if ((tlist = g_slist_find(grpinf->member, pal))) {
 		grpinf->member = g_slist_delete_link(grpinf->member, tlist);
 		if (grpinf->dialog) {
-			session =
-			    (SessionAbstract *)
+			session = (SessionAbstract *)
 			    g_object_get_data(G_OBJECT(grpinf->dialog), "session-class");
 			session->DelPalData(pal);
 		}

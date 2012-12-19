@@ -24,7 +24,7 @@
  * @param size 需要申请的内存大小
  * @return 新内存指针
  */
-void *operator  new(size_t size)
+void *operator    new(size_t size)
 {
 	return g_malloc(size);
 }

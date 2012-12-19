@@ -19,7 +19,7 @@
 #include "utils.h"
 
 GtkWidget *ShareFile::share = NULL;
- ShareFile::ShareFile():share_view(NULL), share_model(NULL)
+ShareFile::ShareFile():share_view(NULL), share_model(NULL)
 {
 }
 
@@ -55,8 +55,7 @@ void ShareFile::CreateShare()
 	widget_enable_dnd_uri(share);
 	g_signal_connect_swapped(share, "drag-data-received",
 				 G_CALLBACK(DragDataReceived), this);
-	g_signal_connect_swapped(share, "destroy",
-				 G_CALLBACK(ShareDestroy), this);
+	g_signal_connect_swapped(share, "destroy", G_CALLBACK(ShareDestroy), this);
 	vbox = create_box();
 	gtk_container_add(GTK_CONTAINER(share), vbox);
 
@@ -69,16 +68,13 @@ void ShareFile::CreateShare()
 	bb = create_box();
 	gtk_box_pack_start(GTK_BOX(hbox), bb, FALSE, FALSE, 0);
 	button = create_button(_("Add Files"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(AddRegular), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(AddRegular), this);
 	gtk_box_pack_start(GTK_BOX(bb), button, FALSE, FALSE, 0);
 	button = create_button(_("Add Folders"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(AddFolder), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(AddFolder), this);
 	gtk_box_pack_start(GTK_BOX(bb), button, FALSE, FALSE, 0);
 	button = create_button(_("Delete Shared"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(DeleteFiles), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(DeleteFiles), this);
 	gtk_box_pack_start(GTK_BOX(bb), button, FALSE, FALSE, 0);
 	button = create_button(_("Clear Password"));
 	g_signal_connect(button, "clicked", G_CALLBACK(ClearPasswd), NULL);
@@ -93,8 +89,7 @@ void ShareFile::CreateShare()
 	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ClickOk), this);
 	gtk_box_pack_end(GTK_BOX(bb), button, FALSE, FALSE, 0);
 	button = create_button(_("Apply"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(ClickApply), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ClickApply), this);
 	gtk_box_pack_end(GTK_BOX(bb), button, FALSE, FALSE, 0);
 	button = create_button(_("Cancel"));
 	g_signal_connect_swapped(button, "clicked",
@@ -153,11 +148,11 @@ void ShareFile::FindInsertPosition(const gchar * path, uint32_t fileattr,
 	do {
 		gtk_tree_model_get(share_model, iter, 1, &tmp, 5, &attr, -1);
 		if ((GET_MODE(fileattr) == IPMSG_FILE_DIR
-				  && GET_MODE(attr) != IPMSG_FILE_DIR)
-		     || (GET_MODE(fileattr) == attr && strcmp(tmp, path) > 0)) {
+		     && GET_MODE(attr) != IPMSG_FILE_DIR)
+		    || (GET_MODE(fileattr) == attr && strcmp(tmp, path) > 0)) {
 			g_free(tmp), sibling = *iter;
-			gtk_list_store_insert_before(GTK_LIST_STORE (share_model),
-								iter, &sibling);
+			gtk_list_store_insert_before(GTK_LIST_STORE(share_model),
+						     iter, &sibling);
 			return;
 		}
 		g_free(tmp);
@@ -190,8 +185,7 @@ GtkTreeModel *ShareFile::CreateSharedModel()
 		gtk_list_store_set(model, &iter, 1, file->filename, 2, ptr,
 				   4, file->filesize, 5, file->fileattr, -1);
 		if (GET_MODE(file->fileattr) == IPMSG_FILE_REGULAR)
-			gtk_list_store_set(model, &iter, 0, pixbuf1, 3,
-					   _("regular"), -1);
+			gtk_list_store_set(model, &iter, 0, pixbuf1, 3, _("regular"), -1);
 		else
 			gtk_list_store_set(model, &iter, 0, pixbuf2, 3,
 					   _("directory"), -1);
@@ -268,23 +262,19 @@ void ShareFile::PickFile(uint32_t fileattr)
 	title = (GET_MODE(fileattr) == IPMSG_FILE_REGULAR) ?
 	    _("Choose shared files") : _("Choose shared folders");
 	action = (GET_MODE(fileattr) == IPMSG_FILE_REGULAR) ?
-	    GTK_FILE_CHOOSER_ACTION_OPEN :
-	    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+	    GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 
 	dialog = gtk_file_chooser_dialog_new(title, GTK_WINDOW(share), action,
-			     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_default_response(GTK_DIALOG(dialog),
-					GTK_RESPONSE_ACCEPT);
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(dialog), TRUE);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
-					    g_get_home_dir());
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), g_get_home_dir());
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
 		list = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER(dialog));
 		AddSharedFiles(list);
-		g_slist_foreach(list, GFunc(remove_foreach),
-				GINT_TO_POINTER(UNKNOWN));
+		g_slist_foreach(list, GFunc(remove_foreach), GINT_TO_POINTER(UNKNOWN));
 		g_slist_free(list);
 	}
 	gtk_widget_destroy(dialog);
@@ -318,10 +308,10 @@ void ShareFile::DeleteFiles(gpointer data)
 	if (!gtk_tree_model_get_iter_first(sf->share_model, &iter))
 		return;
 	do {
- mark:		status = gtk_tree_selection_iter_is_selected(selection, &iter);
+mark:		status = gtk_tree_selection_iter_is_selected(selection, &iter);
 		if (status) {
-			result = gtk_list_store_remove(
-				GTK_LIST_STORE(sf->share_model), &iter);
+			result =
+			    gtk_list_store_remove(GTK_LIST_STORE(sf->share_model), &iter);
 			if (result)
 				goto mark;
 			break;
@@ -347,7 +337,7 @@ void ShareFile::ClickApply(gpointer data)
 
 	pthread_mutex_lock(sfl.MutexQuote());
 	g_slist_foreach(sfl.PblistQuote(), GFunc(remove_foreach),
-				GINT_TO_POINTER(FILEINFO));
+			GINT_TO_POINTER(FILEINFO));
 	g_slist_free(sfl.PblistQuote());
 	sfl.PblistQuote() = NULL;
 	pthread_mutex_unlock(sfl.MutexQuote());
@@ -360,9 +350,8 @@ void ShareFile::ClickApply(gpointer data)
 	pthread_mutex_lock(sfl.MutexQuote());
 	do {
 		gtk_tree_model_get(sf->share_model, &iter, 1, &pathname,
-					   4, &filesize, 5, &fileattr, -1);
-		file = new FileInfo(sfl.PbnQuote(), pathname, filesize,
-							    fileattr);
+				   4, &filesize, 5, &fileattr, -1);
+		file = new FileInfo(sfl.PbnQuote(), pathname, filesize, fileattr);
 		sfl.PblistQuote() = g_slist_append(sfl.PblistQuote(), file);
 	} while (gtk_tree_model_iter_next(sf->share_model, &iter));
 	pthread_mutex_unlock(sfl.MutexQuote());
@@ -403,8 +392,7 @@ void ShareFile::SetPasswd()
 		return;
 	if (*passwd != '\0') {
 		free(sfl.PasswdQuote());
-		sfl.PasswdQuote() =
-			     g_base64_encode((guchar *)passwd, strlen(passwd));
+		sfl.PasswdQuote() = g_base64_encode((guchar *) passwd, strlen(passwd));
 		sfl.dirty = true;
 	}
 	free(passwd);
@@ -417,4 +405,3 @@ void ShareFile::ClearPasswd()
 	*sfl.PasswdQuote() = '\0';
 	sfl.dirty = true;
 }
-

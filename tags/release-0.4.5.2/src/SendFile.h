@@ -16,7 +16,7 @@
 #include "face.h"
 
 class SendFile {
- public:
+public:
 	SendFile();
 	~SendFile();
 
@@ -31,22 +31,24 @@ class SendFile {
 	void SendSharedInfo(gpointer data);	//
 
 	bool dirty;
- private:
+private:
 	void PickFile(uint32_t fileattr, gpointer data);	//
 	pointer FindFileinfo(uint32_t fileid);
 
 	uint32_t pbn;
 	GSList *pblist;
-	char *passwd;	//共享文件密码, passwd != NULL
+	char *passwd;		//共享文件密码, passwd != NULL
 	uint32_t prn;
 	GSList *prlist;
 	pthread_mutex_t mutex;
- public:
-	inline uint32_t &PbnQuote() {	//返回合适的编号
+public:
+	 inline uint32_t & PbnQuote() {	//返回合适的编号
 		return ++pbn;
-	} inline GSList *&PblistQuote() {
+	}
+	inline GSList *&PblistQuote() {
 		return pblist;
-	} inline char *&PasswdQuote() {
+	}
+	inline char *&PasswdQuote() {
 		return passwd;
 	}
 

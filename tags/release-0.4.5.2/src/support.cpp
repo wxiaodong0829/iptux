@@ -82,12 +82,12 @@ void pixbuf_shrink_scale_1(GdkPixbuf ** pixbuf, int width, int height)
 	if (_width > width || _height > height) {
 		scale = ((scale_x = (gdouble) width / _width) <
 			 (scale_y = (gdouble) height / _height))
-			 ? scale_x : scale_y;
+		    ? scale_x : scale_y;
 		_width = (gint) (_width * scale);
 		_height = (gint) (_height * scale);
 		tmp = *pixbuf;
 		*pixbuf = gdk_pixbuf_scale_simple(tmp, _width, _height,
-					    GDK_INTERP_BILINEAR);
+						  GDK_INTERP_BILINEAR);
 		g_object_unref(tmp);
 	}
 }
@@ -98,22 +98,20 @@ GdkPixbuf *obtain_pixbuf_from_stock(const gchar * stock_id)
 	GdkPixbuf *pixbuf;
 
 	widget = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	pixbuf = gtk_widget_render_icon(widget, stock_id,
-					GTK_ICON_SIZE_MENU, NULL);
+	pixbuf = gtk_widget_render_icon(widget, stock_id, GTK_ICON_SIZE_MENU, NULL);
 	gtk_widget_destroy(widget);
 
 	return pixbuf;
 }
 
-void widget_enable_dnd_uri(GtkWidget *widget)
+void widget_enable_dnd_uri(GtkWidget * widget)
 {
-	static const GtkTargetEntry target = {(gchar *)"text/uri-list", 0, 0};
+	static const GtkTargetEntry target = { (gchar *) "text/uri-list", 0, 0 };
 
-	gtk_drag_dest_set(widget, GTK_DEST_DEFAULT_ALL,
-				  &target, 1, GDK_ACTION_MOVE);
+	gtk_drag_dest_set(widget, GTK_DEST_DEFAULT_ALL, &target, 1, GDK_ACTION_MOVE);
 }
 
-GSList *selection_data_get_path(GtkSelectionData *data)
+GSList *selection_data_get_path(GtkSelectionData * data)
 {
 	const char *prl = "file://";
 	gchar **uris, **ptr, *uri;
@@ -213,7 +211,7 @@ void bind_iptux_port()
 	addr.sin_port = htons(IPTUX_DEFAULT_PORT);
 	addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	if (bind(tcpsock, (SA *) & addr, sizeof(addr)) == -1
-		   || bind(udpsock, (SA *) & addr, sizeof(addr)) == -1) {
+	    || bind(udpsock, (SA *) & addr, sizeof(addr)) == -1) {
 		close(tcpsock), close(udpsock);
 		pop_error(_("act: bind the TCP/UDP port(2425) !\nerror: %s !"),
 			  strerror(errno));
@@ -250,8 +248,7 @@ GSList *get_sys_broadcast_addr(int sock)
 	GSList *list;
 	SI *addr;
 
-	list = g_slist_append(NULL,
-			   GUINT_TO_POINTER(inet_addr("255.255.255.255")));
+	list = g_slist_append(NULL, GUINT_TO_POINTER(inet_addr("255.255.255.255")));
 	ifc.ifc_len = amount * sizeof(struct ifreq);
 	ifc.ifc_buf = (caddr_t) Malloc(ifc.ifc_len);
 	if (ioctl(sock, SIOCGIFCONF, &ifc) == -1) {
@@ -265,12 +262,11 @@ GSList *get_sys_broadcast_addr(int sock)
 		count++;
 
 		if (ioctl(sock, SIOCGIFFLAGS, ifr) == -1
-			  || !(ifr->ifr_flags & IFF_BROADCAST)
-			  || ioctl(sock, SIOCGIFBRDADDR, ifr) == -1)
+		    || !(ifr->ifr_flags & IFF_BROADCAST)
+		    || ioctl(sock, SIOCGIFBRDADDR, ifr) == -1)
 			continue;
 		addr = (SI *) & ifr->ifr_broadaddr;
-		list = g_slist_append(list,
-			     GUINT_TO_POINTER(addr->sin_addr.s_addr));
+		list = g_slist_append(list, GUINT_TO_POINTER(addr->sin_addr.s_addr));
 	}
 	free(ifc.ifc_buf);
 
@@ -300,13 +296,11 @@ GSList *get_sys_host_addr(int sock)
 		count++;
 
 		if (strncasecmp(ifr->ifr_name, "lo", 2) == 0
-				  || ioctl(sock, SIOCGIFFLAGS, ifr) == -1
-				  || !(ifr->ifr_flags & IFF_UP)
-				  || ioctl(sock, SIOCGIFADDR, ifr) == -1)
+		    || ioctl(sock, SIOCGIFFLAGS, ifr) == -1 || !(ifr->ifr_flags & IFF_UP)
+		    || ioctl(sock, SIOCGIFADDR, ifr) == -1)
 			continue;
 		addr = (SI *) & ifr->ifr_broadaddr;
-		list = g_slist_append(list,
-			     GUINT_TO_POINTER(addr->sin_addr.s_addr));
+		list = g_slist_append(list, GUINT_TO_POINTER(addr->sin_addr.s_addr));
 	}
 	free(ifc.ifc_buf);
 

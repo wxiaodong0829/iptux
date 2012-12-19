@@ -16,7 +16,7 @@
 
 /*参数 data 类型为class Pal*/
 class Command {
- public:
+public:
 	Command();
 	~Command();
 
@@ -32,17 +32,13 @@ class Command {
 
 	bool SendAskData(int sock, pointer data, uint32_t packetno,
 			 uint32_t fileid, uint64_t offset);
-	bool SendAskFiles(int sock, pointer data, uint32_t packetno,
-			  uint32_t fileid);
-	void SendAskShared(int sock, pointer data, uint32_t opttype,
-			  const char *extra);
-	void SendFileInfo(int sock, pointer data, uint32_t opttype,
-			  const char *extra);
+	bool SendAskFiles(int sock, pointer data, uint32_t packetno, uint32_t fileid);
+	void SendAskShared(int sock, pointer data, uint32_t opttype, const char *extra);
+	void SendFileInfo(int sock, pointer data, uint32_t opttype, const char *extra);
 	void SendMyIcon(int sock, pointer data);
 	void SendMySign(int sock, pointer data);
-	void SendSublayer(int sock, pointer data, uint32_t opttype,
-			  const char *path);
- private:
+	void SendSublayer(int sock, pointer data, uint32_t opttype, const char *path);
+private:
 	void SendSublayerData(int sock, int fd);
 	void CreateCommand(uint32_t command, const char *attach);
 	void TransferEncode(const char *encode);

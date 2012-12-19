@@ -20,7 +20,7 @@
 #define LOG_START_HEADER "====================================="
 #define LOG_END_HEADER   "-------------------------------------"
 
- Log::Log():communicate(NULL), system(NULL)
+Log::Log():communicate(NULL), system(NULL)
 {
 }
 
@@ -54,15 +54,14 @@ void Log::CommunicateLog(pointer data, const char *fmt, ...)
 	if (data) {
 		pal = (Pal *) data;
 		ptr = getformattime(_("Nickname: %s\tUser: %s\tHost: %s"),
-					    pal->NameQuote(), pal->UserQuote(),
-					    pal->HostQuote());
+				    pal->NameQuote(), pal->UserQuote(), pal->HostQuote());
 	} else
 		ptr = getformattime(_("Me"));
 	va_start(ap, fmt);
 	msg = g_strdup_vprintf(fmt, ap);
 	va_end(ap);
 	fprintf(communicate, "%s\n%s%s\n%s\n\n", LOG_START_HEADER,
-					    ptr, msg, LOG_END_HEADER);
+		ptr, msg, LOG_END_HEADER);
 	g_free(ptr), g_free(msg);
 }
 
@@ -75,11 +74,10 @@ void Log::SystemLog(const char *fmt, ...)
 	if (!FLAG_ISSET(ctr.flags, 2))
 		return;
 	ptr = getformattime(_("Name: %s\tHost: %s"), g_get_real_name(),
-					    g_get_host_name());
+			    g_get_host_name());
 	va_start(ap, fmt);
 	msg = g_strdup_vprintf(fmt, ap);
 	va_end(ap);
-	fprintf(system, "%s\n%s%s\n%s\n\n", LOG_START_HEADER, ptr,
-					    msg, LOG_END_HEADER);
+	fprintf(system, "%s\n%s%s\n%s\n\n", LOG_START_HEADER, ptr, msg, LOG_END_HEADER);
 	g_free(ptr), g_free(msg);
 }

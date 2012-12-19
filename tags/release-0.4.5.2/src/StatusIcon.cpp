@@ -21,7 +21,7 @@
 #include "support.h"
 #include "utils.h"
 
- StatusIcon::StatusIcon():status_icon(NULL)
+StatusIcon::StatusIcon():status_icon(NULL)
 {
 }
 
@@ -51,10 +51,8 @@ void StatusIcon::CreateStatusIcon()
 	gtk_status_icon_set_screen(status_icon, screen);
 	gtk_status_icon_set_tooltip(status_icon, _("iptux"));
 
-	g_signal_connect(status_icon, "activate",
-			 G_CALLBACK(StatusIconActivate), NULL);
-	g_signal_connect(status_icon, "popup-menu",
-			 G_CALLBACK(PopupWorkMenu), this);
+	g_signal_connect(status_icon, "activate", G_CALLBACK(StatusIconActivate), NULL);
+	g_signal_connect(status_icon, "popup-menu", G_CALLBACK(PopupWorkMenu), this);
 }
 
 void StatusIcon::UpdateTips()
@@ -65,7 +63,7 @@ void StatusIcon::UpdateTips()
 	guint len;
 
 	pthread_mutex_lock(udt.MutexQuote());
-	if ( (len = g_queue_get_length(udt.MsgqueueQuote()))) {
+	if ((len = g_queue_get_length(udt.MsgqueueQuote()))) {
 		gtk_status_icon_set_blinking(inter.status_icon, TRUE);
 		ipstr = g_strdup_printf(_("Undealt: %" PRIu32 " messages"), len);
 		gtk_status_icon_set_tooltip(inter.status_icon, ipstr);
@@ -94,8 +92,7 @@ GtkWidget *StatusIcon::CreatePopupMenu()
 		menu_item = gtk_image_menu_item_new_with_mnemonic(_("_Show"));
 	image = gtk_image_new_from_file(__MENU_PATH "/board.png");
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
-	g_signal_connect(menu_item, "activate",
-			 G_CALLBACK(SwitchWindowMode), NULL);
+	g_signal_connect(menu_item, "activate", G_CALLBACK(SwitchWindowMode), NULL);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
@@ -112,8 +109,7 @@ GtkWidget *StatusIcon::CreatePopupMenu()
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("_Settings"));
-	image = gtk_image_new_from_stock(GTK_STOCK_PREFERENCES,
-						 GTK_ICON_SIZE_MENU);
+	image = gtk_image_new_from_stock(GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
 	g_signal_connect(menu_item, "activate",
 			 G_CALLBACK(IptuxSetting::SettingEntry), NULL);
@@ -123,8 +119,7 @@ GtkWidget *StatusIcon::CreatePopupMenu()
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("_Public"));
 	image = gtk_image_new_from_file(__MENU_PATH "/share.png");
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
-	g_signal_connect(menu_item, "activate",
-			 G_CALLBACK(ShareFile::ShareEntry), NULL);
+	g_signal_connect(menu_item, "activate", G_CALLBACK(ShareFile::ShareEntry), NULL);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
@@ -143,16 +138,14 @@ GtkWidget *StatusIcon::CreatePopupMenu()
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("_Detect"));
 	image = gtk_image_new_from_file(__MENU_PATH "/detect.png");
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
-	g_signal_connect(menu_item, "activate",
-			 G_CALLBACK(DetectPal::DetectEntry), NULL);
+	g_signal_connect(menu_item, "activate", G_CALLBACK(DetectPal::DetectEntry), NULL);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("_Quit"));
 	image = gtk_image_new_from_stock(GTK_STOCK_QUIT, GTK_ICON_SIZE_MENU);
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menu_item), image);
-	g_signal_connect(menu_item, "activate",
-			 G_CALLBACK(iptux_gui_quit), NULL);
+	g_signal_connect(menu_item, "activate", G_CALLBACK(iptux_gui_quit), NULL);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
@@ -166,8 +159,9 @@ void StatusIcon::SwitchWindowMode()
 
 	if (GTK_WIDGET_VISIBLE(inter.window)) {
 		gtk_widget_hide(inter.window);
-		pixbuf = gdk_pixbuf_new_from_file_at_size(
-				__LOGO_PATH "/i-tux.png", 20, 20, NULL);
+		pixbuf =
+		    gdk_pixbuf_new_from_file_at_size(__LOGO_PATH "/i-tux.png", 20, 20,
+						     NULL);
 		if (pixbuf) {
 			gtk_status_icon_set_from_pixbuf(inter.status_icon, pixbuf);
 			g_object_unref(pixbuf);
@@ -176,8 +170,9 @@ void StatusIcon::SwitchWindowMode()
 				 _("The notify icon"), _("is lost!"));
 	} else {
 		gtk_widget_show(inter.window);
-		pixbuf = gdk_pixbuf_new_from_file_at_size(
-				__LOGO_PATH "/ip-tux.png", 20, 20, NULL);
+		pixbuf =
+		    gdk_pixbuf_new_from_file_at_size(__LOGO_PATH "/ip-tux.png", 20, 20,
+						     NULL);
 		if (pixbuf) {
 			gtk_status_icon_set_from_pixbuf(inter.status_icon, pixbuf);
 			g_object_unref(pixbuf);
@@ -208,5 +203,5 @@ void StatusIcon::PopupWorkMenu(GtkStatusIcon * status_icon, guint button,
 
 	stic = (StatusIcon *) data;
 	gtk_menu_popup(GTK_MENU(stic->CreatePopupMenu()), NULL, NULL,
-				       NULL, NULL, button, activate_time);
+		       NULL, NULL, button, activate_time);
 }

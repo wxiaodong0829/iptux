@@ -18,7 +18,7 @@
 //sys
 char *Strdup(const char *str);
 void *Malloc(size_t size);
-void *operator      new(size_t size);
+void *operator       new(size_t size);
 
 int Socket(int domain, int type, int protocol);
 int Accept(int sockfd, struct sockaddr *addr, socklen_t * addr_len);

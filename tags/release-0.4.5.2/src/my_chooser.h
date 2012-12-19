@@ -15,12 +15,12 @@
 #include "face.h"
 
 class my_chooser {
- public:
+public:
 	my_chooser(const gchar * t, GtkWidget * p);
 	~my_chooser();
 
 	static gchar *choose_file(const gchar * t, GtkWidget * p);
- private:
+private:
 	void create_chooser();
 	gchar *run_chooser();
 
@@ -28,9 +28,8 @@ class my_chooser {
 	GtkWidget *parent;
 	const gchar *title;
 //回调处理部分
- private:
-	static void UpdatePreview(GtkFileChooser * chooser,
-				  GtkWidget * preview);
+private:
+	static void UpdatePreview(GtkFileChooser * chooser, GtkWidget * preview);
 };
 
 #endif

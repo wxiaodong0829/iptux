@@ -46,30 +46,25 @@ bool pop_request_shared(gpointer data)
 
 	gdk_threads_enter();
 	dialog = gtk_dialog_new_with_buttons(_("Request for Shared Resources"),
-				    GTK_WINDOW(inter.window), GTK_DIALOG_MODAL,
-				    _("Refuse"), GTK_RESPONSE_CANCEL,
-				    _("Agree"), GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_default_response(GTK_DIALOG(dialog),
-					GTK_RESPONSE_ACCEPT);
+					     GTK_WINDOW(inter.window), GTK_DIALOG_MODAL,
+					     _("Refuse"), GTK_RESPONSE_CANCEL,
+					     _("Agree"), GTK_RESPONSE_ACCEPT, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 
 	box = create_box(FALSE);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), box,
-						   TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), box, TRUE, TRUE, 0);
 
-	image = gtk_image_new_from_stock(GTK_STOCK_DIALOG_QUESTION,
-						 GTK_ICON_SIZE_DIALOG);
+	image = gtk_image_new_from_stock(GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_DIALOG);
 	gtk_widget_show(image);
 	gtk_box_pack_start(GTK_BOX(box), image, FALSE, FALSE, 0);
 	image = gtk_vseparator_new();
 	gtk_widget_show(image);
 	gtk_box_pack_start(GTK_BOX(box), image, FALSE, FALSE, 0);
 
-	inet_ntop(AF_INET, &((Pal *) data)->Ipv4Quote(), ipstr,
-					  INET_ADDRSTRLEN);
+	inet_ntop(AF_INET, &((Pal *) data)->Ipv4Quote(), ipstr, INET_ADDRSTRLEN);
 	ptr = g_strdup_printf(_("Pal (%s)[%s]\n"
-"Requesting Access to Your Shared Resource(s),\n"
-"Agree or Not?"),
-			        ((Pal *) data)->NameQuote(), ipstr);
+				"Requesting Access to Your Shared Resource(s),\n"
+				"Agree or Not?"), ((Pal *) data)->NameQuote(), ipstr);
 	label = create_label(ptr);
 	free(ptr);
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
@@ -93,18 +88,19 @@ char *pop_obtain_passwd()
 
 	gdk_threads_enter();
 	dialog = gtk_dialog_new_with_buttons(_("Access Password"),
-		    GTK_WINDOW(inter.window), GTK_DIALOG_MODAL,
-		    GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+					     GTK_WINDOW(inter.window), GTK_DIALOG_MODAL,
+					     GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 
-	frame = create_frame(_("Please Enter the Password for the Protected shared file(s)."));
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), frame,
-						   FALSE, FALSE, 0);
+	frame =
+	    create_frame(_
+			 ("Please Enter the Password for the Protected shared file(s)."));
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), frame, FALSE, FALSE, 0);
 	box = create_box(FALSE);
 	gtk_container_add(GTK_CONTAINER(frame), box);
 
 	image = gtk_image_new_from_stock(GTK_STOCK_DIALOG_AUTHENTICATION,
-							GTK_ICON_SIZE_DIALOG);
+					 GTK_ICON_SIZE_DIALOG);
 	gtk_widget_show(image);
 	gtk_box_pack_start(GTK_BOX(box), image, FALSE, FALSE, 0);
 	image = gtk_vseparator_new();
@@ -134,29 +130,27 @@ mark:	if ((result = gtk_dialog_run(GTK_DIALOG(dialog))) == GTK_RESPONSE_OK) {
 	return (result == GTK_RESPONSE_OK) ? text : NULL;
 }
 
-char *pop_passwd_setting(GtkWidget *parent)
+char *pop_passwd_setting(GtkWidget * parent)
 {
 	GtkWidget *dialog, *hbox, *passwd, *repeat;
 	gchar *text1, *text2;
 	gint result;
 
 	dialog = gtk_dialog_new_with_buttons(_("Enter a New Password"),
-				    GTK_WINDOW(parent), GTK_DIALOG_MODAL,
-				    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				    GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+					     GTK_WINDOW(parent), GTK_DIALOG_MODAL,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 
 	hbox = create_box(FALSE);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox,
-						   FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0);
 	passwd = create_label(_("Password: "));
 	gtk_box_pack_start(GTK_BOX(hbox), passwd, FALSE, FALSE, 0);
 	passwd = my_entry::create_entry(NULL, NULL);
 	gtk_entry_set_visibility(GTK_ENTRY(passwd), FALSE);
 	gtk_box_pack_start(GTK_BOX(hbox), passwd, TRUE, TRUE, 0);
 	hbox = create_box(FALSE);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox,
-						   FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0);
 	repeat = create_label(_("Repeat: "));
 	gtk_box_pack_start(GTK_BOX(hbox), repeat, FALSE, FALSE, 0);
 	repeat = my_entry::create_entry(NULL, NULL);
@@ -168,8 +162,7 @@ mark:	if ((result = gtk_dialog_run(GTK_DIALOG(dialog))) == GTK_RESPONSE_OK) {
 		text2 = gtk_editable_get_chars(GTK_EDITABLE(repeat), 0, -1);
 		if (strcmp(text1, text2) != 0) {
 			g_free(text1), g_free(text2);
-			pop_warning(dialog, passwd,
-				    _("\nPassword Mismatched!"));
+			pop_warning(dialog, passwd, _("\nPassword Mismatched!"));
 			goto mark;
 		} else if (*text1 == '\0') {
 			g_free(text1), g_free(text2);

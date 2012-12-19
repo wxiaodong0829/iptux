@@ -15,16 +15,15 @@
 #include "face.h"
 
 class my_entry {
- public:
+public:
 	my_entry();
 	~my_entry();
 
 	static GtkWidget *create_entry(const char *text, const char *tip,
 				       bool digital = false);
- private:
+private:
 	static gboolean QueryTooltip(GtkWidget * widget, gint x, gint y,
-				     gboolean key, GtkTooltip * tooltip,
-				     gpointer data);
+				     gboolean key, GtkTooltip * tooltip, gpointer data);
 	static void InsertText(GtkEditable * editable, gchar * text,
 			       gint length, gint * position, gpointer data);
 };

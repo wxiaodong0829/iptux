@@ -17,6 +17,6 @@
 bool pop_request_quit();
 bool pop_request_shared(gpointer data);	//Pal
 char *pop_obtain_passwd();
-char *pop_passwd_setting(GtkWidget *parent);
+char *pop_passwd_setting(GtkWidget * parent);
 
 #endif

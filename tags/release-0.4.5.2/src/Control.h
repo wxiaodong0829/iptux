@@ -17,7 +17,7 @@
 #include "net.h"
 
 class Control {
- public:
+public:
 	Control();
 	~Control();
 
@@ -28,7 +28,7 @@ class Control {
 	char *FindNetSegDescribe(in_addr_t ipv4);
 
 	char *myname;		//昵称
-	char *mygroup;	//组，mygroup != NULL
+	char *mygroup;		//组，mygroup != NULL
 	char *myicon;		//自身头像
 	char *path;		//文件存放路径
 	char *sign;		//个性签名
@@ -47,11 +47,11 @@ class Control {
 	bool dirty;		//重写标记
 
 	GtkTextTagTable *table;
-	GSList *iconlist;		//系统头像链表，只能初始化而不能修改，因此不必加锁保护
+	GSList *iconlist;	//系统头像链表，只能初始化而不能修改，因此不必加锁保护
 	gfloat pix;
 
 	pthread_mutex_t mutex;
- private:
+private:
 	void ReadControl();
 	void CreateTagTable();
 	void GetSysIcon();

@@ -23,7 +23,7 @@
 #include "utils.h"
 
 GtkWidget *DialogGroup::dialog = NULL;
- DialogGroup::DialogGroup():pal_view(NULL), record(NULL),
+DialogGroup::DialogGroup():pal_view(NULL), record(NULL),
 input(NULL), accel(NULL), group_model(NULL)
 {
 }
@@ -47,7 +47,7 @@ void DialogGroup::DialogEntry()
 
 void DialogGroup::InitDialog()
 {
-	group_model = CreateGroupModel();//Pal tree model
+	group_model = CreateGroupModel();	//Pal tree model
 	InitGroupModel();
 }
 
@@ -60,11 +60,10 @@ void DialogGroup::CreateDialog()
 	dialog = create_window(_("Group Message"), 141, 138);
 	accel = gtk_accel_group_new();
 	gtk_window_add_accel_group(GTK_WINDOW(dialog), accel);
-	g_signal_connect_swapped(dialog, "destroy",
-				 G_CALLBACK(DialogDestroy), this);
+	g_signal_connect_swapped(dialog, "destroy", G_CALLBACK(DialogDestroy), this);
 
 	vbox = gtk_vbox_new(FALSE, 5);
-    gtk_widget_show(vbox);
+	gtk_widget_show(vbox);
 	gtk_container_add(GTK_CONTAINER(dialog), vbox);
 	gtk_box_pack_start(GTK_BOX(vbox), CreateMenuBar(), FALSE, FALSE, 0);
 
@@ -98,7 +97,7 @@ void DialogGroup::CreateChooseArea(GtkWidget * paned)
 
 	pal_view = CreateGroupView();
 	frame = create_frame(NULL);
-    gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
 	gtk_paned_pack1(GTK_PANED(paned), frame, FALSE, TRUE);
 	sw = create_scrolled_window();
 	gtk_container_add(GTK_CONTAINER(frame), sw);
@@ -110,22 +109,20 @@ void DialogGroup::CreateRecordArea(GtkWidget * paned)
 	GtkWidget *frame, *sw;
 
 	record = create_text_view();
-    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (record), 2);
-	gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (record), 2);
-	gtk_text_view_set_left_margin (GTK_TEXT_VIEW (record), 5);
-	gtk_text_view_set_right_margin (GTK_TEXT_VIEW (record), 5);
+	gtk_text_view_set_pixels_above_lines(GTK_TEXT_VIEW(record), 2);
+	gtk_text_view_set_pixels_below_lines(GTK_TEXT_VIEW(record), 2);
+	gtk_text_view_set_left_margin(GTK_TEXT_VIEW(record), 5);
+	gtk_text_view_set_right_margin(GTK_TEXT_VIEW(record), 5);
 	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(record), FALSE);
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(record), FALSE);
 
 	frame = create_frame(NULL);
-    gtk_container_set_border_width(GTK_CONTAINER(frame), 5);  
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
 	gtk_paned_pack1(GTK_PANED(paned), frame, TRUE, TRUE);
 
 	sw = create_scrolled_window();
-	gtk_scrolled_window_set_policy (
-				GTK_SCROLLED_WINDOW (sw), 
-				GTK_POLICY_NEVER, 
-				GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				       GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 
 	gtk_container_add(GTK_CONTAINER(frame), sw);
 	gtk_container_add(GTK_CONTAINER(sw), record);
@@ -138,17 +135,17 @@ void DialogGroup::CreateInputArea(GtkWidget * paned)
 	GtkWidget *hbb, *button;
 
 	frame = create_frame(NULL);
-    gtk_container_set_border_width(GTK_CONTAINER(frame), 5);      
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
 	gtk_paned_pack2(GTK_PANED(paned), frame, FALSE, TRUE);
 
 	box = create_box();
 	gtk_container_add(GTK_CONTAINER(frame), box);
 
 	input = create_text_view();
-    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (input), GTK_WRAP_CHAR);
-	gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (input), 2);
-	gtk_text_view_set_left_margin (GTK_TEXT_VIEW (input), 5);
-	gtk_text_view_set_right_margin (GTK_TEXT_VIEW (input), 5);
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(input), GTK_WRAP_CHAR);
+	gtk_text_view_set_pixels_below_lines(GTK_TEXT_VIEW(input), 2);
+	gtk_text_view_set_left_margin(GTK_TEXT_VIEW(input), 5);
+	gtk_text_view_set_right_margin(GTK_TEXT_VIEW(input), 5);
 
 	sw = create_scrolled_window();
 	gtk_box_pack_start(GTK_BOX(box), sw, TRUE, TRUE, 0);
@@ -156,20 +153,20 @@ void DialogGroup::CreateInputArea(GtkWidget * paned)
 
 	hbb = create_button_box(FALSE);
 	gtk_box_pack_start(GTK_BOX(box), hbb, FALSE, FALSE, 0);
-    gtk_container_set_border_width (GTK_CONTAINER (hbb), 5);
-    gtk_box_set_spacing (GTK_BOX (hbb), 10);
+	gtk_container_set_border_width(GTK_CONTAINER(hbb), 5);
+	gtk_box_set_spacing(GTK_BOX(hbb), 10);
 
 	button = create_button(_("Close"));
 	g_signal_connect_swapped(button, "clicked",
 				 G_CALLBACK(gtk_widget_destroy), dialog);
 	gtk_box_pack_end(GTK_BOX(hbb), button, FALSE, FALSE, 0);
 	button = create_button(_("Send"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(SendMessage), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(SendMessage), this);
 	gtk_box_pack_end(GTK_BOX(hbb), button, FALSE, FALSE, 0);
 	gtk_widget_add_accelerator(button, "clicked", accel, GDK_Return,
-	   FLAG_ISSET(ctr.flags, 4) ? GdkModifierType(0) : GDK_CONTROL_MASK,
-						      GTK_ACCEL_VISIBLE);
+				   FLAG_ISSET(ctr.flags,
+					      4) ? GdkModifierType(0) : GDK_CONTROL_MASK,
+				   GTK_ACCEL_VISIBLE);
 
 	gtk_widget_grab_focus(input);
 }
@@ -180,7 +177,7 @@ GtkTreeModel *DialogGroup::CreateGroupModel()
 	GtkListStore *model;
 
 	model = gtk_list_store_new(4, G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF,
-					   G_TYPE_STRING, G_TYPE_POINTER);
+				   G_TYPE_STRING, G_TYPE_POINTER);
 
 	return GTK_TREE_MODEL(model);
 }
@@ -218,7 +215,7 @@ GtkWidget *DialogGroup::CreateGroupView()
 
 	view = gtk_tree_view_new_with_model(group_model);
 	g_signal_connect_swapped(view, "button-press-event",
-			 G_CALLBACK(PopupPickMenu), group_model);
+				 G_CALLBACK(PopupPickMenu), group_model);
 	g_signal_connect(view, "row-activated",
 			 G_CALLBACK(ViewItemActivated), group_model);
 	gtk_widget_show(view);
@@ -262,8 +259,7 @@ void DialogGroup::CreateFileMenu(GtkWidget * menu_bar)
 
 	menu_item = gtk_menu_item_new_with_label(_("Update List"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
-	g_signal_connect_swapped(menu_item, "activate",
-				 G_CALLBACK(UpdatePalList), this);
+	g_signal_connect_swapped(menu_item, "activate", G_CALLBACK(UpdatePalList), this);
 	gtk_widget_show(menu_item);
 
 	menu_item = gtk_tearoff_menu_item_new();
@@ -291,14 +287,12 @@ void DialogGroup::CreateHelpMenu(GtkWidget * menu_bar)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), menu);
 
 	menu_item = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, accel);
-	g_signal_connect(menu_item, "activate",
-			 G_CALLBACK(AboutIptux::AboutEntry), NULL);
+	g_signal_connect(menu_item, "activate", G_CALLBACK(AboutIptux::AboutEntry), NULL);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("_More"));
-	g_signal_connect(menu_item, "activate",
-			 G_CALLBACK(AboutIptux::MoreEntry), NULL);
+	g_signal_connect(menu_item, "activate", G_CALLBACK(AboutIptux::MoreEntry), NULL);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 }
@@ -356,8 +350,7 @@ void DialogGroup::ViewScroll()
 	if (gtk_text_iter_equal(&start, &end))
 		return;
 	mark = gtk_text_buffer_create_mark(buffer, NULL, &end, FALSE);
-	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(record), mark, 0.0, TRUE,
-								     0.0, 0.0);
+	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(record), mark, 0.0, TRUE, 0.0, 0.0);
 	gtk_text_buffer_delete_mark(buffer, mark);
 }
 
@@ -369,20 +362,17 @@ GtkWidget *DialogGroup::CreatePopupMenu(GtkTreeModel * model)
 	gtk_widget_show(menu);
 
 	menu_item = gtk_menu_item_new_with_label(_("Choose All"));
-	g_signal_connect_swapped(menu_item, "activate",
-					 G_CALLBACK(SelectAll), model);
+	g_signal_connect_swapped(menu_item, "activate", G_CALLBACK(SelectAll), model);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
 	menu_item = gtk_menu_item_new_with_label(_("Reverse All"));
-	g_signal_connect_swapped(menu_item, "activate",
-				 G_CALLBACK(TurnSelect), model);
+	g_signal_connect_swapped(menu_item, "activate", G_CALLBACK(TurnSelect), model);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
 	menu_item = gtk_menu_item_new_with_label(_("Clear Up"));
-	g_signal_connect_swapped(menu_item, "activate",
-				 G_CALLBACK(ClearAll), model);
+	g_signal_connect_swapped(menu_item, "activate", G_CALLBACK(ClearAll), model);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
@@ -402,20 +392,18 @@ void DialogGroup::ViewToggleChange(GtkTreeModel * model, gchar * path)
 	gtk_list_store_set(GTK_LIST_STORE(model), &iter, 0, !active, -1);
 }
 
-gboolean DialogGroup::PopupPickMenu(GtkTreeModel * model,
-				    GdkEventButton * event)
+gboolean DialogGroup::PopupPickMenu(GtkTreeModel * model, GdkEventButton * event)
 {
 	if (event->button != 3)
 		return FALSE;
 	gtk_menu_popup(GTK_MENU(CreatePopupMenu(model)), NULL, NULL,
-				       NULL, NULL, event->button, event->time);
+		       NULL, NULL, event->button, event->time);
 
 	return TRUE;
 }
 
 void DialogGroup::ViewItemActivated(GtkWidget * view, GtkTreePath * path,
-				      GtkTreeViewColumn * column,
-				      GtkTreeModel * model)
+				    GtkTreeViewColumn * column, GtkTreeModel * model)
 {
 	GtkTreeIter iter;
 	gpointer data;
@@ -437,12 +425,12 @@ void DialogGroup::SendMessage(gpointer data)
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(dg->input));
 	gtk_text_buffer_get_bounds(buffer, &start, &end);
 	if (gtk_text_iter_equal(&start, &end)) {
-        /*
-		//既然空消息，不发送就是，不用大惊小怪的
-        pop_warning(dialog, dg->input,
-			    _("<span weight=\"heavy\" underline=\"error\">"
-			      "\nCan't send an empty message!!</span>"));
-        */
+		/*
+		   //既然空消息，不发送就是，不用大惊小怪的
+		   pop_warning(dialog, dg->input,
+		   _("<span weight=\"heavy\" underline=\"error\">"
+		   "\nCan't send an empty message!!</span>"));
+		 */
 		return;
 	}
 	msg = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);

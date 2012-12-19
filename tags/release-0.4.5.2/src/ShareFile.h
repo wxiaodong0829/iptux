@@ -16,12 +16,12 @@
 #include "sys.h"
 
 class ShareFile {
- public:
+public:
 	ShareFile();
 	~ShareFile();
 
 	static void ShareEntry();
- private:
+private:
 	void InitShare();
 	void CreateShare();
 	void AddSharedFiles(GSList * list);
@@ -34,19 +34,17 @@ class ShareFile {
 	GtkWidget *share_view;
 	GtkTreeModel *share_model;
 	static GtkWidget *share;
- private:
+private:
 	void PickFile(uint32_t fileattr);
 //回调处理部分
- private:
+private:
 	static void AddRegular(gpointer data);	//ShareFile
 	static void AddFolder(gpointer data);	//
 	static void DeleteFiles(gpointer data);	//
 	static void ClickOk(gpointer data);	//
 	static void ClickApply(gpointer data);	//
 	static void ShareDestroy(gpointer data);	//
-	static void DragDataReceived(gpointer data, GdkDragContext * context,
-				     gint x, gint y, GtkSelectionData * select,
-				     guint info, guint time);	//
+	static void DragDataReceived(gpointer data, GdkDragContext * context, gint x, gint y, GtkSelectionData * select, guint info, guint time);	//
 
 	static void SetPasswd();
 	static void ClearPasswd();

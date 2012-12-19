@@ -15,14 +15,13 @@
 #include "sys.h"
 
 class TcpData {
- public:
+public:
 	TcpData();
 	~TcpData();
 
 	static void TcpDataEntry(int sock);
- private:
-	static void RecvSublayer(int sock, uint32_t command, char *buf,
-				 ssize_t size);
+private:
+	static void RecvSublayer(int sock, uint32_t command, char *buf, ssize_t size);
 	static void RecvSublayerData(int sock, int fd, char *buf, ssize_t size);
 };
 

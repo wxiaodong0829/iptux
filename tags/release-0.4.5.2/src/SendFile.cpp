@@ -19,7 +19,7 @@
 #include "baling.h"
 #include "utils.h"
 
- SendFile::SendFile():dirty(false), pbn(0), pblist(NULL), passwd(NULL),
+SendFile::SendFile():dirty(false), pbn(0), pblist(NULL), passwd(NULL),
 prn(MAX_SHAREDFILE), prlist(NULL)
 {
 	pthread_mutex_init(&mutex, NULL);
@@ -29,11 +29,9 @@ SendFile::~SendFile()
 {
 	free(passwd);
 	pthread_mutex_lock(&mutex);
-	g_slist_foreach(pblist, GFunc(remove_foreach),
-			GINT_TO_POINTER(FILEINFO));
+	g_slist_foreach(pblist, GFunc(remove_foreach), GINT_TO_POINTER(FILEINFO));
 	g_slist_free(pblist);
-	g_slist_foreach(prlist, GFunc(remove_foreach),
-			GINT_TO_POINTER(FILEINFO));
+	g_slist_foreach(prlist, GFunc(remove_foreach), GINT_TO_POINTER(FILEINFO));
 	g_slist_free(prlist);
 	pthread_mutex_unlock(&mutex);
 	pthread_mutex_destroy(&mutex);
@@ -59,14 +57,15 @@ void SendFile::InitSelf()
 	pblist = NULL, tmp = filelist;
 	while (tmp) {
 		if (Stat((const char *)tmp->data, &st) == -1
-			  || (!S_ISREG(st.st_mode) && !S_ISDIR(st.st_mode))) {
+		    || (!S_ISREG(st.st_mode) && !S_ISDIR(st.st_mode))) {
 			free(tmp->data), tmp = tmp->next;
 			continue;
 		}
 		if (S_ISDIR(st.st_mode))
 			st.st_size = mf.ftw((const char *)tmp->data);
 		file = new FileInfo(PbnQuote(), (char *)tmp->data, st.st_size,
-		    S_ISREG(st.st_mode) ? IPMSG_FILE_REGULAR : IPMSG_FILE_DIR);
+				    S_ISREG(st.st_mode) ? IPMSG_FILE_REGULAR :
+				    IPMSG_FILE_DIR);
 		pblist = g_slist_append(pblist, file);
 		tmp = tmp->next;
 	}
@@ -84,15 +83,13 @@ void SendFile::WriteShared()
 	pthread_mutex_lock(&mutex);
 	filelist = NULL, tmp = pblist;
 	while (tmp) {
-		filelist = g_slist_append(filelist,
-			  ((FileInfo *) tmp->data)->filename);
+		filelist = g_slist_append(filelist, ((FileInfo *) tmp->data)->filename);
 		tmp = tmp->next;
 	}
 	client = gconf_client_get_default();
 	gconf_client_set_list(client, GCONF_PATH "/shared_file_list",
-				      GCONF_VALUE_STRING, filelist, NULL);
-	gconf_client_set_string(client, GCONF_PATH "/shared_passwd",
-						    passwd, NULL);
+			      GCONF_VALUE_STRING, filelist, NULL);
+	gconf_client_set_string(client, GCONF_PATH "/shared_passwd", passwd, NULL);
 	g_object_unref(client);
 	pthread_mutex_unlock(&mutex);
 	g_slist_free(filelist);
@@ -181,12 +178,13 @@ void SendFile::SendFileInfo(GSList * list, gpointer data)
 			st.st_size = mf.ftw((const char *)list->data);
 		filename = ipmsg_set_filename_pal((char *)list->data);
 		snprintf(ptr, MAX_UDPBUF - len, "%" PRIu32 ":%s:%" PRIx64 ":%"
-		    PRIx32 ":%" PRIx32 ":\a:",
-		    prn, filename, st.st_size, st.st_mtime,
-		    S_ISREG(st.st_mode) ? IPMSG_FILE_REGULAR : IPMSG_FILE_DIR);
+			 PRIx32 ":%" PRIx32 ":\a:",
+			 prn, filename, st.st_size, st.st_mtime,
+			 S_ISREG(st.st_mode) ? IPMSG_FILE_REGULAR : IPMSG_FILE_DIR);
 		free(filename), len += strlen(ptr), ptr = buf + len;
 		file = new FileInfo(prn, (char *)list->data, st.st_size,
-		    S_ISREG(st.st_mode) ? IPMSG_FILE_REGULAR : IPMSG_FILE_DIR);
+				    S_ISREG(st.st_mode) ? IPMSG_FILE_REGULAR :
+				    IPMSG_FILE_DIR);
 		prlist = g_slist_prepend(prlist, file);
 		list = list->next, prn++;
 	}
@@ -220,8 +218,8 @@ void SendFile::SendSharedInfo(gpointer data)
 		}
 		filename = ipmsg_set_filename_pal(file->filename);
 		snprintf(ptr, MAX_UDPBUF - len, "%" PRIu32 ":%s:%" PRIx64 ":%"
-			    PRIx32 ":%" PRIx32 ":\a:", file->fileid, filename,
-			    file->filesize, 0, file->fileattr);
+			 PRIx32 ":%" PRIx32 ":\a:", file->fileid, filename,
+			 file->filesize, 0, file->fileattr);
 		free(filename), len += strlen(ptr), ptr = buf + len;
 		tmp = tmp->next;
 	}
@@ -241,22 +239,19 @@ void SendFile::PickFile(uint32_t fileattr, gpointer data)
 	Pal *pal;
 
 	pal = (Pal *) data;
-	parent = pal->DialogQuote() ? pal->DialogQuote()->DialogQuote()
-					  : inter.window;
+	parent = pal->DialogQuote()? pal->DialogQuote()->DialogQuote()
+	    : inter.window;
 	title = (GET_MODE(fileattr) == IPMSG_FILE_REGULAR) ?
-		    _("Choose sending files") : _("Choose sending folders");
+	    _("Choose sending files") : _("Choose sending folders");
 	action = (GET_MODE(fileattr) == IPMSG_FILE_REGULAR) ?
-		    GTK_FILE_CHOOSER_ACTION_OPEN :
-		    GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+	    GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 
 	dialog = gtk_file_chooser_dialog_new(title, GTK_WINDOW(parent), action,
-				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_default_response(GTK_DIALOG(dialog),
-					GTK_RESPONSE_ACCEPT);
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 	gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(dialog), TRUE);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
-						    g_get_home_dir());
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), g_get_home_dir());
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
 		list = gtk_file_chooser_get_filenames(GTK_FILE_CHOOSER(dialog));

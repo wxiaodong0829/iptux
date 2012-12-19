@@ -15,24 +15,23 @@
 #include "face.h"
 
 class StatusIcon {
- public:
+public:
 	StatusIcon();
 	~StatusIcon();
 
 	void CreateStatusIcon();
- private:
+private:
 	 GtkStatusIcon * status_icon;
- public:
+public:
 	static void UpdateTips();
- private:
+private:
 	 GtkWidget * CreatePopupMenu();
 //回调处理部分
- public:
+public:
 	static void SwitchWindowMode();
- private:
+private:
 	static void StatusIconActivate();
-	static void PopupWorkMenu(GtkStatusIcon * status_icon, guint button,
-				  guint activate_time, gpointer data);	//StatusIcon
+	static void PopupWorkMenu(GtkStatusIcon * status_icon, guint button, guint activate_time, gpointer data);	//StatusIcon
 };
 
 #endif

@@ -13,13 +13,13 @@
 #define CORETHREAD_H
 
 class CoreThread {
- public:
+public:
 	CoreThread();
 	~CoreThread();
 
 	static void CoreThreadEntry();
 	static void NotifyAll();
- private:
+private:
 	static void RecvUdp();
 	static void RecvTcp();
 	static void WatchIptux();

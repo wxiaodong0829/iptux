@@ -17,7 +17,7 @@ class DialogPeer;
 
 //对自己而言操作
 class Pal {
- public:
+public:
 	Pal();
 	~Pal();
 
@@ -41,7 +41,7 @@ class Pal {
 	void SendAnsentry();
 	void SendReply(const char *msg);
 	void SendExit();
- private:
+private:
 	 bool IptuxGetGroup(const char *msg, size_t size, bool entry);
 	bool IptuxGetIcon(const char *msg, size_t size);
 	bool IptuxGetEncode(const char *msg, size_t size);
@@ -70,40 +70,54 @@ class Pal {
 	DialogPeer *dialog;
 	uint32_t mypacketn;
 	bool reply;
- public:
-	inline in_addr_t &Ipv4Quote() {
+public:
+	 inline in_addr_t & Ipv4Quote() {
 		return ipv4;
-	} inline char *&NameQuote() {
+	}
+	inline char *&NameQuote() {
 		return name;
-	} inline char *&GroupQuote() {
+	}
+	inline char *&GroupQuote() {
 		return group;
-	} inline char *&IconfileQuote() {
+	}
+	inline char *&IconfileQuote() {
 		return iconfile;
-	} inline char *&EncodeQuote() {
+	}
+	inline char *&EncodeQuote() {
 		return encode;
-	} inline uint8_t &FlagsQuote() {
+	}
+	inline uint8_t & FlagsQuote() {
 		return flags;
-	} inline GdkPixbuf *&IconpixQuote() {
+	}
+	inline GdkPixbuf *&IconpixQuote() {
 		return iconpix;
-	} inline DialogPeer *&DialogQuote() {
+	}
+	inline DialogPeer *&DialogQuote() {
 		return dialog;
 	}
 
 	inline char *SegmentQuote() {
 		return segment;
-	} inline char *VersionQuote() {
+	}
+	inline char *VersionQuote() {
 		return version;
-	} inline uint32_t PacketnQuote() {
+	}
+	inline uint32_t PacketnQuote() {
 		return packetn;
-	} inline char *UserQuote() {
+	}
+	inline char *UserQuote() {
 		return user;
-	} inline char *HostQuote() {
+	}
+	inline char *HostQuote() {
 		return host;
-	} inline char *AdQuote() {
+	}
+	inline char *AdQuote() {
 		return ad;
-	} inline char *SignQuote() {
+	}
+	inline char *SignQuote() {
 		return sign;
-	} inline GtkTextBuffer *RecordQuote() {
+	}
+	inline GtkTextBuffer *RecordQuote() {
 		return record;
 	}
 

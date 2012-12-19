@@ -16,7 +16,7 @@
 #include "sys.h"
 
 class Transport {
- public:
+public:
 	Transport();
 	~Transport();
 
@@ -24,9 +24,8 @@ class Transport {
 	bool TransportActive();
 	static void TransportEntry();
 	static void RecvFileEntry(GtkTreeIter * iter);
-	static void SendFileEntry(int sock, GtkTreeIter * iter,
-				  uint32_t fileattr);
- private:
+	static void SendFileEntry(int sock, GtkTreeIter * iter, uint32_t fileattr);
+private:
 	 GtkTreeModel * CreateTransModel();
 	bool CheckExist();
 	void CreateTransView();
@@ -39,8 +38,7 @@ class Transport {
 	void SendDirFiles(int sock, GtkTreeIter * iter);
 	uint32_t SendData(int sock, int fd, GtkTreeIter * iter,
 			  uint64_t filesize, char *buf);
-	void EndTransportData(int sock, int fd, GtkTreeIter * iter,
-			      const char *pathname);
+	void EndTransportData(int sock, int fd, GtkTreeIter * iter, const char *pathname);
 	void EndTransportDirFiles(GtkTreeIter * iter, char *filename,
 				  uint64_t finishsize, uint64_t filesize);
 
@@ -49,18 +47,16 @@ class Transport {
 	GtkTreeModel *trans_model;
 	GtkTreeIter opt_iter;
 	bool flag;
- public:
-	inline GtkTreeModel *TransModelQuote() {
+public:
+	 inline GtkTreeModel * TransModelQuote() {
 		return trans_model;
-	}
- private:
+} private:
 	 GtkWidget * CreatePopupMenu();
 //回调处理部分
- public:
- private:
+public:
+private:
 	static void DestroyDialog();
-	static gboolean PopupControlMenu(GtkWidget * view,
-			 GdkEventButton * event, gpointer data);	//Transport
+	static gboolean PopupControlMenu(GtkWidget * view, GdkEventButton * event, gpointer data);	//Transport
 	static void StopTask(gpointer data);	//
 	static void StopAllTask(gpointer data);	//
 	static void TidyTask(gpointer data);	//

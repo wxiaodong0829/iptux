@@ -27,7 +27,7 @@ SendFile sfl;
 Transport trans;
 Log mylog;
 Sound sound;
-MainWindow *mwp;	//主窗口类指针
+MainWindow *mwp;		//主窗口类指针
 struct interactive inter;
 
 #endif

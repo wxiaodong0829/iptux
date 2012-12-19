@@ -15,12 +15,12 @@
 #include "face.h"
 
 class DetectPal {
- public:
+public:
 	DetectPal();
 	~DetectPal();
 
 	static void DetectEntry();
- private:
+private:
 	void CreateDetect();
 	void RunDetect();
 	void SendDetectPacket();
@@ -29,7 +29,7 @@ class DetectPal {
 	GtkWidget *ipstr;
 	static GtkWidget *detect;
 //回调处理部分
- private:
+private:
 	static void DetectDestroy();
 };
 

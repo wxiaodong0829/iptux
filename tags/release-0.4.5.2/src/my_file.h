@@ -15,7 +15,7 @@
 #include "udt.h"
 
 class my_file {
- public:
+public:
 	my_file(bool fg);	//r false,w true
 	~my_file();
 
@@ -24,7 +24,7 @@ class my_file {
 	int stat(const char *filename, struct stat64 *st);
 	uint64_t ftw(const char *dir);
 	DIR *opendir();
- private:
+private:
 	static int fn(const char *file, const struct stat64 *sb, int flag);
 	static uint64_t sumsize;
 

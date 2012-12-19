@@ -22,7 +22,7 @@
 #include "output.h"
 #include "utils.h"
 
- DialogPeer::DialogPeer(gpointer data): dialog(NULL), focus(NULL),
+DialogPeer::DialogPeer(gpointer data):dialog(NULL), focus(NULL),
 scroll(NULL), accel(NULL), pal((Pal *) data)
 {
 	extern Control ctr;
@@ -66,11 +66,10 @@ void DialogPeer::CreateDialog()
 
 	widget_enable_dnd_uri(dialog);
 	g_signal_connect_swapped(dialog, "drag-data-received",
-					G_CALLBACK(DragDataReceived), pal);
+				 G_CALLBACK(DragDataReceived), pal);
 	accel = gtk_accel_group_new();
 	gtk_window_add_accel_group(GTK_WINDOW(dialog), accel);
-	g_signal_connect_swapped(dialog, "destroy",
-					G_CALLBACK(DialogDestroy), this);
+	g_signal_connect_swapped(dialog, "destroy", G_CALLBACK(DialogDestroy), this);
 }
 
 void DialogPeer::CreateAllArea()
@@ -82,28 +81,23 @@ void DialogPeer::CreateAllArea()
 
 	Menu_Area_vbox = gtk_vbox_new(FALSE, 5);
 	gtk_container_add(GTK_CONTAINER(dialog), Menu_Area_vbox);
-	gtk_box_pack_start(GTK_BOX(Menu_Area_vbox), 
-				CreateMenuBar(), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(Menu_Area_vbox), CreateMenuBar(), FALSE, FALSE, 0);
 
 	Chat_Info_hpaned = gtk_hpaned_new();
-	gtk_paned_set_position(
-				GTK_PANED(Chat_Info_hpaned), GINT(ctr.pix * 105));
-	gtk_box_pack_end(GTK_BOX(Menu_Area_vbox), 
-				Chat_Info_hpaned, TRUE, TRUE, 0);
+	gtk_paned_set_position(GTK_PANED(Chat_Info_hpaned), GINT(ctr.pix * 105));
+	gtk_box_pack_end(GTK_BOX(Menu_Area_vbox), Chat_Info_hpaned, TRUE, TRUE, 0);
 	CreateInfoArea(Chat_Info_hpaned);
 
 	History_Send_vpaned = gtk_vpaned_new();
-	gtk_paned_set_position(
-				GTK_PANED(History_Send_vpaned), GINT(ctr.pix * 67));
-	gtk_paned_pack1(GTK_PANED(Chat_Info_hpaned), 
-				History_Send_vpaned, TRUE, TRUE);
+	gtk_paned_set_position(GTK_PANED(History_Send_vpaned), GINT(ctr.pix * 67));
+	gtk_paned_pack1(GTK_PANED(Chat_Info_hpaned), History_Send_vpaned, TRUE, TRUE);
 
 	CreateRecordArea(History_Send_vpaned);
 	CreateInputArea(History_Send_vpaned);
 	gtk_widget_show_all(dialog);
 }
 
-void DialogPeer::CreateInfoArea(GtkWidget *Chat_Info_hpaned)
+void DialogPeer::CreateInfoArea(GtkWidget * Chat_Info_hpaned)
 {
 	GtkWidget *view, *frame;
 
@@ -111,31 +105,28 @@ void DialogPeer::CreateInfoArea(GtkWidget *Chat_Info_hpaned)
 	gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
 	gtk_paned_pack2(GTK_PANED(Chat_Info_hpaned), frame, FALSE, TRUE);
 
-	GtkWidget* Info_alignment = gtk_alignment_new (0.5, 0.5, 1, 1);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (Info_alignment), 0, 0, 0, 0);
-	gtk_container_add (GTK_CONTAINER (frame), Info_alignment);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (Info_alignment),
-				2, 2, 2, 2);
+	GtkWidget *Info_alignment = gtk_alignment_new(0.5, 0.5, 1, 1);
+	gtk_alignment_set_padding(GTK_ALIGNMENT(Info_alignment), 0, 0, 0, 0);
+	gtk_container_add(GTK_CONTAINER(frame), Info_alignment);
+	gtk_alignment_set_padding(GTK_ALIGNMENT(Info_alignment), 2, 2, 2, 2);
 
-	GtkWidget* Info_scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-				GTK_SCROLLED_WINDOW (Info_scrolledwindow), 
-				GTK_POLICY_NEVER, 
-				GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (Info_alignment), Info_scrolledwindow);
-	gtk_scrolled_window_set_shadow_type (
-				GTK_SCROLLED_WINDOW (Info_scrolledwindow), GTK_SHADOW_IN);
+	GtkWidget *Info_scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(Info_scrolledwindow),
+				       GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_container_add(GTK_CONTAINER(Info_alignment), Info_scrolledwindow);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(Info_scrolledwindow),
+					    GTK_SHADOW_IN);
 
 	view = create_text_view();
-	gtk_container_add (GTK_CONTAINER (Info_scrolledwindow), view);
+	gtk_container_add(GTK_CONTAINER(Info_scrolledwindow), view);
 	gtk_text_view_set_buffer(GTK_TEXT_VIEW(view), infobuf);
 	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(view), FALSE);
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(view), FALSE);
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(view), GTK_WRAP_NONE);
-	gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (view), 2);
-	gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (view), 2);
-	gtk_text_view_set_left_margin (GTK_TEXT_VIEW (view), 5);
-	gtk_text_view_set_right_margin (GTK_TEXT_VIEW (view), 5);
+	gtk_text_view_set_pixels_above_lines(GTK_TEXT_VIEW(view), 2);
+	gtk_text_view_set_pixels_below_lines(GTK_TEXT_VIEW(view), 2);
+	gtk_text_view_set_left_margin(GTK_TEXT_VIEW(view), 5);
+	gtk_text_view_set_right_margin(GTK_TEXT_VIEW(view), 5);
 	FillPalInfoToBuffer(pal, infobuf);
 }
 
@@ -144,29 +135,27 @@ void DialogPeer::CreateRecordArea(GtkWidget * paned)
 	GtkWidget *frame, *sw;
 
 	frame = create_frame(NULL);
-	gtk_container_set_border_width(GTK_CONTAINER(frame), 5);  
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
 	gtk_paned_pack1(GTK_PANED(paned), frame, TRUE, TRUE);
 
-	GtkWidget* Rec_alignment = gtk_alignment_new (0.5, 0.5, 1, 1);
-	gtk_container_add (GTK_CONTAINER (frame), Rec_alignment);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (Rec_alignment), 0, 0, 0, 0);
+	GtkWidget *Rec_alignment = gtk_alignment_new(0.5, 0.5, 1, 1);
+	gtk_container_add(GTK_CONTAINER(frame), Rec_alignment);
+	gtk_alignment_set_padding(GTK_ALIGNMENT(Rec_alignment), 0, 0, 0, 0);
 
-	sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (Rec_alignment), sw);
-	gtk_scrolled_window_set_policy (
-				GTK_SCROLLED_WINDOW (sw), 
-				GTK_POLICY_NEVER, 
-				GTK_POLICY_ALWAYS);
+	sw = gtk_scrolled_window_new(NULL, NULL);
+	gtk_container_add(GTK_CONTAINER(Rec_alignment), sw);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				       GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 
 	scroll = create_text_view();
-	gtk_container_add (GTK_CONTAINER(sw), scroll);
+	gtk_container_add(GTK_CONTAINER(sw), scroll);
 	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(scroll), FALSE);
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(scroll), FALSE);
 	gtk_text_view_set_buffer(GTK_TEXT_VIEW(scroll), pal->RecordQuote());
-	gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (scroll), 2);
-	gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (scroll), 2);
-	gtk_text_view_set_left_margin (GTK_TEXT_VIEW (scroll), 5);
-	gtk_text_view_set_right_margin (GTK_TEXT_VIEW (scroll), 5);
+	gtk_text_view_set_pixels_above_lines(GTK_TEXT_VIEW(scroll), 2);
+	gtk_text_view_set_pixels_below_lines(GTK_TEXT_VIEW(scroll), 2);
+	gtk_text_view_set_left_margin(GTK_TEXT_VIEW(scroll), 5);
+	gtk_text_view_set_right_margin(GTK_TEXT_VIEW(scroll), 5);
 
 	pal->ViewScroll();
 }
@@ -178,30 +167,28 @@ void DialogPeer::CreateInputArea(GtkWidget * paned)
 	GtkWidget *vbox, *hbb, *button;
 
 	frame = create_frame(NULL);
-	gtk_container_set_border_width(GTK_CONTAINER(frame), 5);	
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 5);
 	gtk_paned_pack2(GTK_PANED(paned), frame, FALSE, TRUE);
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
-	GtkWidget* Input_alignment = gtk_alignment_new (0.5, 0.5, 1, 1);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (Input_alignment), 0, 0, 0, 0);
+	GtkWidget *Input_alignment = gtk_alignment_new(0.5, 0.5, 1, 1);
+	gtk_alignment_set_padding(GTK_ALIGNMENT(Input_alignment), 0, 0, 0, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), Input_alignment, TRUE, TRUE, 0);
 
-	sw = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (Input_alignment), sw);
-	gtk_scrolled_window_set_policy (
-				GTK_SCROLLED_WINDOW (sw), 
-				GTK_POLICY_AUTOMATIC, 
-				GTK_POLICY_AUTOMATIC);
+	sw = gtk_scrolled_window_new(NULL, NULL);
+	gtk_container_add(GTK_CONTAINER(Input_alignment), sw);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	focus = create_text_view();
 	gtk_container_add(GTK_CONTAINER(sw), focus);
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (focus), GTK_WRAP_CHAR);
-	gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (focus), 2);
-	gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (focus), 2);
-	gtk_text_view_set_left_margin (GTK_TEXT_VIEW (focus), 5);
-	gtk_text_view_set_right_margin (GTK_TEXT_VIEW (focus), 5);
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(focus), GTK_WRAP_CHAR);
+	gtk_text_view_set_pixels_above_lines(GTK_TEXT_VIEW(focus), 2);
+	gtk_text_view_set_pixels_below_lines(GTK_TEXT_VIEW(focus), 2);
+	gtk_text_view_set_left_margin(GTK_TEXT_VIEW(focus), 5);
+	gtk_text_view_set_right_margin(GTK_TEXT_VIEW(focus), 5);
 	gtk_drag_dest_add_uri_targets(focus);
 	g_signal_connect(focus, "drag-data-received",
 			 G_CALLBACK(DragPicReceived),
@@ -210,8 +197,8 @@ void DialogPeer::CreateInputArea(GtkWidget * paned)
 
 	hbb = create_button_box(FALSE);
 	gtk_box_pack_start(GTK_BOX(vbox), hbb, FALSE, FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (hbb), 5);
-	gtk_box_set_spacing (GTK_BOX (hbb), 10);
+	gtk_container_set_border_width(GTK_CONTAINER(hbb), 5);
+	gtk_box_set_spacing(GTK_BOX(hbb), 10);
 
 	button = create_button(_("Close"));
 	gtk_box_pack_end(GTK_BOX(hbb), button, FALSE, FALSE, 0);
@@ -220,11 +207,11 @@ void DialogPeer::CreateInputArea(GtkWidget * paned)
 
 	button = create_button(_("Send"));
 	gtk_box_pack_end(GTK_BOX(hbb), button, FALSE, FALSE, 0);
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(SendMessage), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(SendMessage), this);
 	gtk_widget_add_accelerator(button, "clicked", accel, GDK_Return,
-		  FLAG_ISSET(ctr.flags, 4) ? GdkModifierType(0) : GDK_CONTROL_MASK,
-							  GTK_ACCEL_VISIBLE);
+				   FLAG_ISSET(ctr.flags,
+					      4) ? GdkModifierType(0) : GDK_CONTROL_MASK,
+				   GTK_ACCEL_VISIBLE);
 }
 
 GtkWidget *DialogPeer::CreateMenuBar()
@@ -266,8 +253,7 @@ void DialogPeer::CreateFileMenu(GtkWidget * menu_bar)
 	gtk_widget_show(menu_item);
 
 	menu_item = gtk_menu_item_new_with_label(_("Ask For Shared Files"));
-	g_signal_connect_swapped(menu_item, "activate",
-				 G_CALLBACK(AskSharedFiles), pal);
+	g_signal_connect_swapped(menu_item, "activate", G_CALLBACK(AskSharedFiles), pal);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
@@ -296,14 +282,13 @@ void DialogPeer::CreateToolMenu(GtkWidget * menu_bar)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), menu);
 
 	menu_item = gtk_menu_item_new_with_label(_("Insert Picture"));
-	g_signal_connect_swapped(menu_item, "activate",
-				 G_CALLBACK(InsertPixbuf), this);
+	g_signal_connect_swapped(menu_item, "activate", G_CALLBACK(InsertPixbuf), this);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 	gtk_widget_show(menu_item);
 
 	menu_item = gtk_menu_item_new_with_label(_("Clear Buffer"));
 	g_signal_connect_swapped(menu_item, "activate",
-			 G_CALLBACK(ClearRecordBuffer), pal->RecordQuote());
+				 G_CALLBACK(ClearRecordBuffer), pal->RecordQuote());
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 	gtk_widget_show(menu_item);
 }
@@ -322,14 +307,12 @@ void DialogPeer::CreateHelpMenu(GtkWidget * menu_bar)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), menu);
 
 	menu_item = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, accel);
-	g_signal_connect(menu_item, "activate",
-			 G_CALLBACK(AboutIptux::AboutEntry), NULL);
+	g_signal_connect(menu_item, "activate", G_CALLBACK(AboutIptux::AboutEntry), NULL);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 
 	menu_item = gtk_image_menu_item_new_with_mnemonic(_("_More"));
-	g_signal_connect(menu_item, "activate",
-			 G_CALLBACK(AboutIptux::MoreEntry), NULL);
+	g_signal_connect(menu_item, "activate", G_CALLBACK(AboutIptux::MoreEntry), NULL);
 	gtk_widget_show(menu_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 }
@@ -342,7 +325,7 @@ bool DialogPeer::CheckExist(gpointer data)
 	GList *tmp;
 	Pal *pal;
 
-	if ( (tmp = (GList *) udt.PalGetMsgPos(data)) ) {
+	if ((tmp = (GList *) udt.PalGetMsgPos(data))) {
 		pthread_mutex_lock(udt.MutexQuote());
 		g_queue_delete_link(udt.MsgqueueQuote(), tmp);
 		pthread_mutex_unlock(udt.MutexQuote());
@@ -359,8 +342,7 @@ bool DialogPeer::CheckExist(gpointer data)
 	return false;
 }
 
-void DialogPeer::FillPalInfoToBuffer(gpointer data, GtkTextBuffer * buffer,
-					 bool sad)
+void DialogPeer::FillPalInfoToBuffer(gpointer data, GtkTextBuffer * buffer, bool sad)
 {
 	extern Control ctr;
 	char buf[MAX_BUF], ipstr[INET_ADDRSTRLEN];
@@ -378,7 +360,7 @@ void DialogPeer::FillPalInfoToBuffer(gpointer data, GtkTextBuffer * buffer,
 		snprintf(buf, MAX_BUF, _("Nickname: %s\n"), pal->NameQuote());
 	else
 		snprintf(buf, MAX_BUF, _("Nickname: %s@%s\n"),
-				 pal->NameQuote(), pal->GroupQuote());
+			 pal->NameQuote(), pal->GroupQuote());
 	gtk_text_buffer_insert(buffer, &iter, buf, -1);
 
 	snprintf(buf, MAX_BUF, _("User: %s\n"), pal->UserQuote());
@@ -388,8 +370,7 @@ void DialogPeer::FillPalInfoToBuffer(gpointer data, GtkTextBuffer * buffer,
 	gtk_text_buffer_insert(buffer, &iter, buf, -1);
 
 	inet_ntop(AF_INET, &pal->Ipv4Quote(), ipstr, INET_ADDRSTRLEN);
-	snprintf(buf, MAX_BUF, _("Address: %s(%s)\n"),
-				 pal->SegmentQuote(), ipstr);
+	snprintf(buf, MAX_BUF, _("Address: %s(%s)\n"), pal->SegmentQuote(), ipstr);
 	gtk_text_buffer_insert(buffer, &iter, buf, -1);
 
 	if (!FLAG_ISSET(pal->FlagsQuote(), 0))
@@ -404,11 +385,12 @@ void DialogPeer::FillPalInfoToBuffer(gpointer data, GtkTextBuffer * buffer,
 	snprintf(buf, MAX_BUF, _("Sign:\n"));
 	gtk_text_buffer_insert(buffer, &iter, buf, -1);
 	gtk_text_buffer_insert_with_tags_by_name(buffer, &iter,
-			pal->SignQuote() ? pal->SignQuote() : _("(lazy)"),
-			-1, "sign", NULL);
+						 pal->
+						 SignQuote()? pal->SignQuote() :
+						 _("(lazy)"), -1, "sign", NULL);
 
 	if (!sad || !pal->AdQuote()
-		 || !(pixbuf = gdk_pixbuf_new_from_file(pal->AdQuote(), NULL)))
+	    || !(pixbuf = gdk_pixbuf_new_from_file(pal->AdQuote(), NULL)))
 		return;
 	snprintf(buf, MAX_BUF, _("\nAD: \n"));
 	gtk_text_buffer_insert(buffer, &iter, buf, -1);
@@ -438,10 +420,9 @@ void DialogPeer::DragDataReceived(gpointer data, GdkDragContext * context,
 	g_slist_free(list);	//他处释放
 
 	inet_ntop(AF_INET, &pal->Ipv4Quote(), ipstr, INET_ADDRSTRLEN);
-	pop_info(pal->DialogQuote() ? pal->DialogQuote()->dialog : inter.window,
-		 pal->DialogQuote() ? pal->DialogQuote()->focus : NULL,
-		 _("File Sent to \n%s[%s] "),
-		 pal->NameQuote(), ipstr);
+	pop_info(pal->DialogQuote()? pal->DialogQuote()->dialog : inter.window,
+		 pal->DialogQuote()? pal->DialogQuote()->focus : NULL,
+		 _("File Sent to \n%s[%s] "), pal->NameQuote(), ipstr);
 
 	gtk_drag_finish(context, TRUE, FALSE, time);
 }
@@ -470,20 +451,15 @@ void DialogPeer::DragPicReceived(GtkWidget * view, GdkDragContext * context,
 
 	tmp = list = selection_data_get_path(select);
 	while (tmp) {
-		if( (pixbuf = gdk_pixbuf_new_from_file(
-					(char *) tmp->data, NULL)) ) {
-			g_object_get(buffer, "cursor-position",
-							 &position, NULL);
-			gtk_text_buffer_get_iter_at_offset(buffer,
-							 &iter, position);
-			gtk_text_buffer_insert_pixbuf(buffer,
-							 &iter, pixbuf);
+		if ((pixbuf = gdk_pixbuf_new_from_file((char *)tmp->data, NULL))) {
+			g_object_get(buffer, "cursor-position", &position, NULL);
+			gtk_text_buffer_get_iter_at_offset(buffer, &iter, position);
+			gtk_text_buffer_insert_pixbuf(buffer, &iter, pixbuf);
 			g_object_unref(pixbuf);
 		}
 		tmp = tmp->next;
 	}
-	g_slist_foreach(list, GFunc(remove_foreach),
-				GINT_TO_POINTER(UNKNOWN));
+	g_slist_foreach(list, GFunc(remove_foreach), GINT_TO_POINTER(UNKNOWN));
 	g_slist_free(list);
 
 	gtk_drag_finish(context, TRUE, FALSE, time);
@@ -504,9 +480,10 @@ void DialogPeer::InsertPixbuf(gpointer data)
 	gint position;
 
 	peer = (DialogPeer *) data;
-	if (!(filename = my_chooser:: choose_file(
-				 _("Please choose a picture to insert the buffer"),
-				 peer->dialog)))
+	if (!
+	    (filename =
+	     my_chooser::choose_file(_("Please choose a picture to insert the buffer"),
+				     peer->dialog)))
 		return;
 
 	pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
@@ -544,33 +521,31 @@ void DialogPeer::SendMessage(gpointer data)
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(peer->focus));
 	gtk_text_buffer_get_bounds(buffer, &start, &end);
 	if (gtk_text_iter_equal(&start, &end)) {
-        /*
-        //空信息，不发送就是了，不用大惊小怪
-		pop_warning(peer->dialog, peer->focus,
-				_("<span weight=\"heavy\" underline=\"error\">"
-				  "\nCan't send an empty message!!</span>"));
-		*/
-        return;
+		/*
+		   //空信息，不发送就是了，不用大惊小怪
+		   pop_warning(peer->dialog, peer->focus,
+		   _("<span weight=\"heavy\" underline=\"error\">"
+		   "\nCan't send an empty message!!</span>"));
+		 */
+		return;
 	}
 
 	buf[0] = '\0', chiplist = NULL, iter = piter = start;
 	do {
-		if ( (pixbuf = gtk_text_iter_get_pixbuf(&iter)) ) {
-			ptr = gtk_text_buffer_get_text(buffer, &piter,
-								&iter, FALSE);
+		if ((pixbuf = gtk_text_iter_get_pixbuf(&iter))) {
+			ptr = gtk_text_buffer_get_text(buffer, &piter, &iter, FALSE);
 			snprintf(buf + strlen(buf), MAX_UDPBUF - strlen(buf),
-						 "%s%c", ptr, OCCUPY_OBJECT);
+				 "%s%c", ptr, OCCUPY_OBJECT);
 			free(ptr);
-			piter = iter;		//移动 piter 到新位置
+			piter = iter;	//移动 piter 到新位置
 			ptr = g_strdup_printf("%s" IPTUX_PATH "/%" PRIx32,
-						g_get_user_config_dir(), count++);
+					      g_get_user_config_dir(), count++);
 			gdk_pixbuf_save(pixbuf, ptr, "bmp", NULL, NULL);
-			chiplist = g_slist_append(chiplist,
-					   new ChipData(PICTURE, ptr));
+			chiplist = g_slist_append(chiplist, new ChipData(PICTURE, ptr));
 		}
 	} while (gtk_text_iter_forward_find_char(&iter,
-					 GtkTextCharPredicate(compare_foreach),
-					 GUINT_TO_POINTER(ATOM_OBJECT), &end));
+						 GtkTextCharPredicate(compare_foreach),
+						 GUINT_TO_POINTER(ATOM_OBJECT), &end));
 	ptr = gtk_text_buffer_get_text(buffer, &piter, &iter, FALSE);
 	snprintf(buf + strlen(buf), MAX_UDPBUF - strlen(buf), "%s", ptr);
 	free(ptr);
@@ -613,8 +588,7 @@ void DialogPeer::ThreadSendMessage(gpointer data)
 		tmp = tmp->next;
 	}
 
-	g_slist_foreach(para->chiplist, GFunc(remove_foreach),
-					GINT_TO_POINTER(CHIPDATA));
+	g_slist_foreach(para->chiplist, GFunc(remove_foreach), GINT_TO_POINTER(CHIPDATA));
 	g_slist_free(para->chiplist);
 	free(para);
 }

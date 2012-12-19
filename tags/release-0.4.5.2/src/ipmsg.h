@@ -152,7 +152,7 @@
 #define HLIST_ENTRY_SEPARATOR	':'
 #endif
 
-///*	@(#)Copyright (C) Jally 2008   iptux.h    Version 0.4 *///
+///*    @(#)Copyright (C) Jally 2008   iptux.h    Version 0.4 *///
 #ifdef __IP_TUX__
 
 /*  macro  */

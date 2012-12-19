@@ -15,12 +15,12 @@
 #include "Pal.h"
 
 class RevisePal {
- public:
+public:
 	RevisePal(gpointer data);	//Pal
 	~RevisePal();
 
 	static void ReviseEntry(gpointer data);	//
- private:
+private:
 	void InitRevise();
 	void CreateRevise();
 	void RunRevise();

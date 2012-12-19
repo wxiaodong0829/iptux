@@ -15,14 +15,14 @@
 #include "sys.h"
 
 class Log {
- public:
+public:
 	Log();
 	~Log();
 
 	void InitSelf();
 	void CommunicateLog(pointer data, const char *fmt, ...);	//data pal|NULL
 	void SystemLog(const char *fmt, ...);
- private:
+private:
 	 FILE * communicate;
 	FILE *system;
 };

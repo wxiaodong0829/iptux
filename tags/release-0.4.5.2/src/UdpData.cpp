@@ -20,7 +20,7 @@
 #include "baling.h"
 #include "utils.h"
 
- UdpData::UdpData():pallist(NULL), msgqueue(NULL)
+UdpData::UdpData():pallist(NULL), msgqueue(NULL)
 {
 	pthread_mutex_init(&mutex, NULL);
 }
@@ -28,8 +28,7 @@
 UdpData::~UdpData()
 {
 	pthread_mutex_lock(&mutex);
-	g_slist_foreach(pallist, GFunc(remove_foreach),
-			GINT_TO_POINTER(PALINFO));
+	g_slist_foreach(pallist, GFunc(remove_foreach), GINT_TO_POINTER(PALINFO));
 	g_slist_free(pallist);
 	g_queue_clear(msgqueue);
 	g_queue_free(msgqueue);
@@ -102,7 +101,7 @@ void UdpData::UdpDataEntry(in_addr_t ipv4, char *msg, size_t size)
 	Pal *pal;
 
 	if (FLAG_ISSET(ctr.flags, 1) && (pal = (Pal *) Ipv4GetPal(ipv4))
-		   && FLAG_ISSET(pal->FlagsQuote(), 3))
+	    && FLAG_ISSET(pal->FlagsQuote(), 3))
 		return;
 	commandno = iptux_get_dec_number(msg, 4);
 	switch (GET_MODE(commandno)) {
@@ -344,17 +343,16 @@ void UdpData::SomeoneSendmsg(in_addr_t ipv4, char *msg, size_t size)
 	if (commandno & IPMSG_SENDCHECKOPT)
 		pal->SendReply(msg);
 	if (flag && FLAG_ISSET(ctr.sndfgs, 1)
-		   && !(commandno & IPMSG_FILEATTACHOPT))
+	    && !(commandno & IPMSG_FILEATTACHOPT))
 		sound.Playing(ctr.msgtip);
 	if (flag && (commandno & IPMSG_FILEATTACHOPT)) {
 		if ((commandno & IPTUX_SHAREDOPT)
-			     && (commandno & IPTUX_PASSWDOPT)) {
+		    && (commandno & IPTUX_PASSWDOPT)) {
 			passwd = pop_obtain_passwd();
 			if (passwd && *passwd != '\0') {
-				text = g_base64_encode((guchar *)passwd,
-							strlen(passwd));
+				text = g_base64_encode((guchar *) passwd, strlen(passwd));
 				cmd.SendAskShared(inter.udpsock, pal,
-						IPTUX_PASSWDOPT, text);
+						  IPTUX_PASSWDOPT, text);
 				free(text);
 			}
 			free(passwd);

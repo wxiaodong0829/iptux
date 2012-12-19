@@ -63,6 +63,7 @@ private:
 public:
 	 inline uint32_t & Packetn() {
 		return packetn;
-}};
+	}
+};
 
 #endif

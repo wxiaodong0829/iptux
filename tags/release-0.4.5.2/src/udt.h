@@ -63,8 +63,7 @@ struct sendmsg_para {
 
 class SysIcon {
 public:
-	SysIcon(char *path, GdkPixbuf *pix):
-		pathname(path), pixbuf(pix) {
+	SysIcon(char *path, GdkPixbuf * pix):pathname(path), pixbuf(pix) {
 	} ~SysIcon() {
 		free(pathname);
 		if (pixbuf)
@@ -75,7 +74,7 @@ public:
 };
 
 class FileInfo {
- public:
+public:
 	FileInfo(uint32_t id, char *name, uint64_t size,
 		 uint32_t attr):fileid(id), filename(name),
 	    filesize(size), fileattr(attr) {
@@ -90,7 +89,7 @@ class FileInfo {
 };
 
 class ChipData {
- public:
+public:
 	ChipData(enum MSG_TYPE tp, char *dt):type(tp), data(dt) {
 	} ~ChipData() {
 		free(data);
@@ -101,7 +100,7 @@ class ChipData {
 };
 
 class NetSegment {
- public:
+public:
 	NetSegment(char *start, char *end, char *dsc):startip(start),
 	    endip(end), describe(dsc) {
 	} ~NetSegment() {

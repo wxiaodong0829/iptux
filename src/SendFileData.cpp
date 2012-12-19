@@ -239,10 +239,9 @@ start:			if (afs.stat(dirt->d_name, &st) == -1
 			snprintf(buf, MAX_SOCKLEN,
 				 "0000:%s:%.9" PRIx64 ":%lx:%lx=%lx:%lx=%lx:", dirname,
 				 S_ISREG(st.st_mode) ? st.st_size : 0,
-				 S_ISREG(st.
-					 st_mode) ? IPMSG_FILE_REGULAR : IPMSG_FILE_DIR,
-				 IPMSG_FILE_MTIME, st.st_mtime, IPMSG_FILE_CREATETIME,
-				 st.st_ctime);
+				 S_ISREG(st.st_mode) ? IPMSG_FILE_REGULAR :
+				 IPMSG_FILE_DIR, IPMSG_FILE_MTIME, st.st_mtime,
+				 IPMSG_FILE_CREATETIME, st.st_ctime);
 			g_free(dirname);
 			headsize = strlen(buf);
 			snprintf(buf, MAX_SOCKLEN, "%.4" PRIx32, headsize);
@@ -353,10 +352,7 @@ int64_t SendFileData::SendData(int fd, int64_t filesize)
 						 g_strdup_printf("%.1f", progress),
 						 GDestroyNotify(g_free));
 			g_datalist_set_data_full(&para, "cost", numeric_to_time((uint32_t)
-										(difftimeval
-										 (val2,
-										  filetime))),
-						 GDestroyNotify(g_free));
+										(difftimeval(val2, filetime))), GDestroyNotify(g_free));
 			g_datalist_set_data_full(&para, "remain",
 						 numeric_to_time((uint32_t)
 								 ((filesize -

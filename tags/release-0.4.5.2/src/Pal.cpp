@@ -20,7 +20,7 @@
 #include "baling.h"
 #include "utils.h"
 
- Pal::Pal():ipv4(0), segment(NULL), version(NULL), packetn(0),
+Pal::Pal():ipv4(0), segment(NULL), version(NULL), packetn(0),
 user(NULL), host(NULL), name(NULL), group(NULL), ad(NULL),
 sign(NULL), iconfile(NULL), encode(NULL), flags(0), tpointer(NULL),
 iconpix(NULL), dialog(NULL), mypacketn(0), reply(true)
@@ -103,7 +103,7 @@ void Pal::UpdateInfo(const char *msg, size_t size, bool entry)
 		if (entry && !FLAG_ISSET(flags, 0)) {
 			free(encode);
 			encode = Strdup(ctr.encode);
-		} else if (cpt)		//如果以前兼容，则此次也兼容
+		} else if (cpt)	//如果以前兼容，则此次也兼容
 			FLAG_SET(flags, 0);
 		ptr = group;
 		if (IptuxGetGroup(msg, size, entry))	//依赖兼容性支持
@@ -138,7 +138,7 @@ GdkPixbuf *Pal::GetIconPixbuf()
 	GSList *tmp;
 	SysIcon *si;
 
-	if (iconpix) {	//对象存在
+	if (iconpix) {		//对象存在
 		if (tpointer && strcmp(tpointer, iconfile) == 0) {	//最新
 			g_object_ref(iconpix);
 			return iconpix;
@@ -152,20 +152,20 @@ GdkPixbuf *Pal::GetIconPixbuf()
 	tpointer = Strdup(iconfile);
 
 	tmp = ctr.iconlist;
-	while (tmp) {	//查询是否为系统图标
+	while (tmp) {		//查询是否为系统图标
 		si = (SysIcon *) tmp->data;
 		if (strcmp(si->pathname, iconfile) == 0)
 			break;
 		tmp = tmp->next;
 	}
-	if (!tmp) {	//不是系统图标
+	if (!tmp) {		//不是系统图标
 		iconpix = gdk_pixbuf_new_from_file_at_size(iconfile,
-				MAX_ICONSIZE, MAX_ICONSIZE, NULL);
+							   MAX_ICONSIZE, MAX_ICONSIZE,
+							   NULL);
 		if (iconpix)
 			g_object_ref(iconpix);
 		return iconpix;
 	}
-
 	//是系统图标，且已经加载进入内存
 	if (si->pixbuf) {
 		g_object_ref(si->pixbuf);
@@ -175,7 +175,7 @@ GdkPixbuf *Pal::GetIconPixbuf()
 	}
 	//是系统图标，但是未加载进入内存
 	iconpix = gdk_pixbuf_new_from_file_at_size(iconfile,
-			MAX_ICONSIZE, MAX_ICONSIZE, NULL);
+						   MAX_ICONSIZE, MAX_ICONSIZE, NULL);
 	if (iconpix) {
 		g_object_ref(iconpix);
 		si->pixbuf = iconpix;
@@ -258,8 +258,7 @@ bool Pal::RecvMessage(const char *msg)
 
 	chiplist = g_slist_append(NULL, new ChipData(STRING, ptr));
 	BufferInsertData(chiplist, PAL);
-	g_slist_foreach(chiplist, GFunc(remove_foreach),
-				GINT_TO_POINTER(CHIPDATA));
+	g_slist_foreach(chiplist, GFunc(remove_foreach), GINT_TO_POINTER(CHIPDATA));
 	g_slist_free(chiplist);
 
 	if (!dialog) {
@@ -293,7 +292,7 @@ bool Pal::RecvIcon(const char *msg, size_t size)
 	if (FLAG_ISSET(flags, 2) || (len = strlen(msg) + 1) >= size)
 		return false;
 	snprintf(file, MAX_PATHBUF, "%s" ICON_PATH "/%" PRIx32,
-				 g_get_user_cache_dir(), ipv4);
+		 g_get_user_cache_dir(), ipv4);
 	if ((fd = Open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1)
 		return false;
 	Write(fd, msg + len, size - len);
@@ -321,7 +320,7 @@ void Pal::RecvFile(const char *msg, size_t size)
 
 	commandno = iptux_get_dec_number(msg, 4);
 	if ((!(ptr = iptux_skip_string(msg, size, 1)) || *ptr == '\0')
-		      && !(commandno & IPTUX_SHAREDOPT))
+	    && !(commandno & IPTUX_SHAREDOPT))
 		return;
 	para = (struct recvfile_para *)Malloc(sizeof(struct recvfile_para));
 	para->data = this;
@@ -355,8 +354,7 @@ void Pal::RecvMsgPic(const char *path)
 
 	chiplist = g_slist_append(NULL, new ChipData(PICTURE, Strdup(path)));
 	BufferInsertData(chiplist, PAL);
-	g_slist_foreach(chiplist, GFunc(remove_foreach),
-				GINT_TO_POINTER(CHIPDATA));
+	g_slist_foreach(chiplist, GFunc(remove_foreach), GINT_TO_POINTER(CHIPDATA));
 	g_slist_free(chiplist);
 }
 
@@ -451,7 +449,8 @@ void Pal::BufferInsertPal(GSList * chiplist)
 			header = getformattime("%s", name);
 			gtk_text_buffer_get_end_iter(record, &end);
 			gtk_text_buffer_insert_with_tags_by_name(record, &end,
-						    header, -1, "blue", NULL);
+								 header, -1, "blue",
+								 NULL);
 			g_free(header);
 			if (!FLAG_ISSET(flags, 0))
 				pptr = transfer_encode(ptr, encode, false);
@@ -465,25 +464,26 @@ void Pal::BufferInsertPal(GSList * chiplist)
 		case PICTURE:
 			gtk_text_buffer_get_start_iter(record, &start);
 			if (gtk_text_iter_get_char(&start) == OCCUPY_OBJECT
-				|| gtk_text_iter_forward_find_char(&start,
-					GtkTextCharPredicate(compare_foreach),
-					GUINT_TO_POINTER(OCCUPY_OBJECT),
-					NULL)) {
+			    || gtk_text_iter_forward_find_char(&start,
+							       GtkTextCharPredicate
+							       (compare_foreach),
+							       GUINT_TO_POINTER
+							       (OCCUPY_OBJECT), NULL)) {
 				end = start;
 				gtk_text_iter_forward_char(&end);
 				gtk_text_buffer_delete(record, &start, &end);
 			} else {
 				header = getformattime("%s", name);
-				gtk_text_buffer_insert_with_tags_by_name(
-				    record, &start, header, -1, "blue", NULL);
+				gtk_text_buffer_insert_with_tags_by_name(record, &start,
+									 header, -1,
+									 "blue", NULL);
 				gtk_text_buffer_insert(record, &start, "\n", -1);
 				gtk_text_iter_backward_char(&start);
 				g_free(header);
 			}
 			pixbuf = gdk_pixbuf_new_from_file(ptr, NULL);
 			if (pixbuf) {
-				gtk_text_buffer_insert_pixbuf(record,
-							  &start, pixbuf);
+				gtk_text_buffer_insert_pixbuf(record, &start, pixbuf);
 				g_object_unref(pixbuf);
 			}
 			break;
@@ -507,8 +507,7 @@ void Pal::BufferInsertSelf(GSList * chiplist)
 
 	ptr = getformattime("%s", ctr.myname);
 	gtk_text_buffer_get_end_iter(record, &end);
-	gtk_text_buffer_insert_with_tags_by_name(record, &end,
-					   ptr, -1, "green", NULL);
+	gtk_text_buffer_insert_with_tags_by_name(record, &end, ptr, -1, "green", NULL);
 	g_free(ptr);
 
 	tmp = chiplist;
@@ -523,18 +522,18 @@ void Pal::BufferInsertSelf(GSList * chiplist)
 		case PICTURE:
 			gtk_text_buffer_get_start_iter(record, &start);
 			if (gtk_text_iter_get_char(&start) == OCCUPY_OBJECT
-				|| gtk_text_iter_forward_find_char(&start,
-					GtkTextCharPredicate(compare_foreach),
-					GUINT_TO_POINTER(OCCUPY_OBJECT),
-					NULL)) {
+			    || gtk_text_iter_forward_find_char(&start,
+							       GtkTextCharPredicate
+							       (compare_foreach),
+							       GUINT_TO_POINTER
+							       (OCCUPY_OBJECT), NULL)) {
 				end = start;
 				gtk_text_iter_forward_char(&end);
 				gtk_text_buffer_delete(record, &start, &end);
 			}
 			pixbuf = gdk_pixbuf_new_from_file(ptr, NULL);
 			if (pixbuf) {
-				gtk_text_buffer_insert_pixbuf(record,
-							&start, pixbuf);
+				gtk_text_buffer_insert_pixbuf(record, &start, pixbuf);
 				g_object_unref(pixbuf);
 			}
 			break;
@@ -559,15 +558,16 @@ void Pal::BufferInsertError(GSList * chiplist)
 
 	gtk_text_buffer_get_end_iter(record, &iter);
 	ptr = getformattime(_("<tips>"));
-	gtk_text_buffer_insert_with_tags_by_name(record, &iter,
-						ptr, -1, "red", NULL);
+	gtk_text_buffer_insert_with_tags_by_name(record, &iter, ptr, -1, "red", NULL);
 	g_free(ptr);
 
 	tmp = chiplist;
 	while (tmp) {
 		if (((ChipData *) tmp->data)->type == STRING)
 			gtk_text_buffer_insert_with_tags_by_name(record, &iter,
-			      ((ChipData *) tmp->data)->data, -1, "red", NULL);
+								 ((ChipData *)
+								  tmp->data)->data, -1,
+								 "red", NULL);
 		tmp = tmp->next;
 	}
 	gtk_text_buffer_insert(record, &iter, "\n", -1);
@@ -588,8 +588,7 @@ void Pal::SendFeature(gpointer data)
 		cmd.SendMyIcon(inter.udpsock, data);
 	if (ctr.sign && *ctr.sign != '\0')
 		cmd.SendMySign(inter.udpsock, data);
-	snprintf(path, MAX_PATHBUF, "%s" COMPLEX_PATH "/ad",
-					 g_get_user_config_dir());
+	snprintf(path, MAX_PATHBUF, "%s" COMPLEX_PATH "/ad", g_get_user_config_dir());
 	if (access(path, F_OK) == 0) {
 		sock = Socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 		cmd.SendSublayer(sock, data, IPTUX_ADPICOPT, path);

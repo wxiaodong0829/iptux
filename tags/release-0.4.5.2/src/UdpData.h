@@ -17,8 +17,8 @@
 #include "sys.h"
 
 class UdpData {
- public:
-	 UdpData();
+public:
+	UdpData();
 	~UdpData();
 
 	void InitSelf();
@@ -30,7 +30,7 @@ class UdpData {
 	gpointer Ipv4GetPal(in_addr_t ipv4);
 	gpointer Ipv4GetPalPos(in_addr_t ipv4);
 	gpointer PalGetMsgPos(gpointer data);
- private:
+private:
 	void SomeoneLost(in_addr_t ipv4, char *msg, size_t size);
 	void SomeoneEntry(in_addr_t ipv4, char *msg, size_t size);
 	void SomeoneExit(in_addr_t ipv4, char *msg, size_t size);
@@ -47,10 +47,11 @@ class UdpData {
 	GSList *pallist;	//好友链表，只能添加，不能删除
 	GQueue *msgqueue;	//消息队列
 	pthread_mutex_t mutex;
- public:
-	inline GSList *&PallistQuote() {
+public:
+	 inline GSList * &PallistQuote() {
 		return pallist;
-	} inline GQueue *&MsgqueueQuote() {
+	}
+	inline GQueue *&MsgqueueQuote() {
 		return msgqueue;
 	}
 

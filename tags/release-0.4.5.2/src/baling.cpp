@@ -34,12 +34,12 @@ void *Malloc(size_t size)
 	dst = malloc(size);
 	if (!dst)
 		pwarning(Quit, _("act: allocate memory [%" PRIu32 "],"
-				   "warning: %s\n"), size, strerror(errno));
+				 "warning: %s\n"), size, strerror(errno));
 
 	return dst;
 }
 
-void *operator      new(size_t size)
+void *operator        new(size_t size)
 {
 	return Malloc(size);
 }
@@ -51,8 +51,7 @@ int Socket(int domain, int type, int protocol)
 	//<sys/select.h> FD_SETSIZE = 1024
 	sock = socket(domain, type, protocol);
 	if (sock == -1)
-		pwarning(Quit, _("act: create socket,warning: %s\n"),
-			 strerror(errno));
+		pwarning(Quit, _("act: create socket,warning: %s\n"), strerror(errno));
 
 	return sock;
 }
@@ -61,7 +60,7 @@ int Accept(int sockfd, struct sockaddr *addr, socklen_t * addr_len)
 {
 	int subsock;
 
- mark:	subsock = accept(sockfd, addr, addr_len);
+mark:	subsock = accept(sockfd, addr, addr_len);
 	if (subsock == -1) {
 		if (errno == EINTR)
 			goto mark;
@@ -78,12 +77,11 @@ int Connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
 	char ipstr[INET_ADDRSTRLEN];
 	int status;
 
- mark:	status = connect(sockfd, serv_addr, addrlen);
+mark:	status = connect(sockfd, serv_addr, addrlen);
 	if (status == -1) {
 		if (errno == EINTR)
 			goto mark;
-		inet_ntop(AF_INET, &((SI *) serv_addr)->sin_addr, ipstr,
-			  INET_ADDRSTRLEN);
+		inet_ntop(AF_INET, &((SI *) serv_addr)->sin_addr, ipstr, INET_ADDRSTRLEN);
 		pwarning(Fail, _("act: connect to server '%s',warning: %s\n"),
 			 ipstr, strerror(errno));
 	}
@@ -138,7 +136,7 @@ ssize_t Read(int fd, void *buf, size_t count)
 			if (errno == EINTR)
 				continue;
 			pwarning(Fail, _("act: read data (%d)[%" PRIu32 "],"
-				 "warning: %s\n"), fd, count, strerror(errno));
+					 "warning: %s\n"), fd, count, strerror(errno));
 			return -1;
 		}
 		len += size;
@@ -160,7 +158,7 @@ ssize_t Write(int fd, const void *buf, size_t count)
 			if (errno == EINTR)
 				continue;
 			pwarning(Fail, _("act: write data (%d)[%" PRIu32 "],"
-				 "warning: %s\n"), fd, count, strerror(errno));
+					 "warning: %s\n"), fd, count, strerror(errno));
 			return -1;
 		}
 		len += size;
@@ -203,8 +201,7 @@ ssize_t read_ipmsg_fileinfo(int fd, void *buf, size_t count, size_t offset)
 	if (offset < count)
 		((char *)buf)[offset] = '\0';
 	while (!offset || !strchr((char *)buf, ':')
-		       || sscanf((char *)buf, "%" SCNx32, &headsize) != 1
-		       || headsize > offset) {
+	       || sscanf((char *)buf, "%" SCNx32, &headsize) != 1 || headsize > offset) {
 		size = read(fd, (char *)buf + offset, count - offset);
 		if (size == -1) {
 			if (errno == EINTR)
@@ -305,8 +302,7 @@ GtkWidget *create_scrolled_window()
 
 	sw = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				       GTK_POLICY_AUTOMATIC,
-				       GTK_POLICY_AUTOMATIC);
+				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 					    GTK_SHADOW_ETCHED_IN);
 	gtk_widget_show(sw);
@@ -354,8 +350,7 @@ GtkWidget *create_window(const gchar * title, gdouble width, gdouble height)
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), title);
 	gtk_window_set_default_size(GTK_WINDOW(window),
-				    GINT(ctr.pix * width),
-				    GINT(ctr.pix * height));
+				    GINT(ctr.pix * width), GINT(ctr.pix * height));
 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
 	gtk_widget_show(window);
 

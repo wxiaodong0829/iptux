@@ -16,12 +16,12 @@
 #include "Pal.h"
 
 class DialogPeer {
- public:
+public:
 	DialogPeer(gpointer data);	//Pal
 	~DialogPeer();
 
 	static void DialogEntry(gpointer data);	//
- private:
+private:
 	void CreateDialog();
 	void CreateAllArea();
 	void CreateInfoArea(GtkWidget * paned);
@@ -39,32 +39,29 @@ class DialogPeer {
 	GtkTextBuffer *infobuf;
 	GtkAccelGroup *accel;
 	Pal *pal;
- public:
-	inline GtkWidget *DialogQuote() {
+public:
+	 inline GtkWidget * DialogQuote() {
 		return dialog;
-	} inline GtkWidget *ScrollQuote() {
+	}
+	inline GtkWidget *ScrollQuote() {
 		return scroll;
 	}
 
-	static void FillPalInfoToBuffer(gpointer data, GtkTextBuffer * buffer,
-					bool sad = true);	//
+	static void FillPalInfoToBuffer(gpointer data, GtkTextBuffer * buffer, bool sad = true);	//
 //回调处理部分
- public:
-	static void DragDataReceived(gpointer data, GdkDragContext * context,
-				     gint x, gint y, GtkSelectionData * select,
-				     guint info, guint time);	//
+public:
+	static void DragDataReceived(gpointer data, GdkDragContext * context, gint x, gint y, GtkSelectionData * select, guint info, guint time);	//
 	static void AskSharedFiles(gpointer data);	//
- private:
+private:
 	static void DragPicReceived(GtkWidget * view, GdkDragContext * context,
 				    gint x, gint y, GtkSelectionData * select,
-				    guint info, guint time,
-				    GtkTextBuffer * buffer);
+				    guint info, guint time, GtkTextBuffer * buffer);
 	static void DialogDestroy(gpointer data);	//DialogPeer
 	static void InsertPixbuf(gpointer data);	//
 	static void ClearRecordBuffer(GtkTextBuffer * buffer);
 	static void SendMessage(gpointer data);	//
 //线程处理
- private:
+private:
 	static void ThreadSendMessage(gpointer data);	//struct sendmsg_para
 };
 

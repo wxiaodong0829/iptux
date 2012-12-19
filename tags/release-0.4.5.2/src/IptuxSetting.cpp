@@ -24,7 +24,7 @@
 #include "utils.h"
 
 GtkWidget *IptuxSetting::setting = NULL;
- IptuxSetting::IptuxSetting():icon_model(NULL), snd_model(NULL),
+IptuxSetting::IptuxSetting():icon_model(NULL), snd_model(NULL),
 ip_model(NULL), myname(NULL), mygroup(NULL), myicon(NULL),
 save_path(NULL), ad(NULL), sign(NULL), encode(NULL),
 palicon(NULL), font(NULL), memory(NULL), etrkey(NULL),
@@ -69,8 +69,7 @@ void IptuxSetting::CreateSetting()
 
 	setting = create_window(_("Iptux Settings"), 132, 100);
 	gtk_container_set_border_width(GTK_CONTAINER(setting), 5);
-	g_signal_connect_swapped(setting, "destroy",
-				 G_CALLBACK(SettingDestroy), this);
+	g_signal_connect_swapped(setting, "destroy", G_CALLBACK(SettingDestroy), this);
 	box = create_box();
 	gtk_container_add(GTK_CONTAINER(setting), box);
 
@@ -107,7 +106,7 @@ void IptuxSetting::CreatePerson(GtkWidget * note)
 	myname = create_label(_("Nick:"));
 	gtk_box_pack_start(GTK_BOX(hbox), myname, FALSE, FALSE, 0);
 	myname = my_entry::create_entry(ctr.myname,
-				      _("Please Input Your Nickname!"), FALSE);
+					_("Please Input Your Nickname!"), FALSE);
 	gtk_box_pack_start(GTK_BOX(hbox), myname, TRUE, TRUE, 0);
 
 	hbox = create_box(FALSE);
@@ -115,7 +114,7 @@ void IptuxSetting::CreatePerson(GtkWidget * note)
 	mygroup = create_label(_("Group:"));
 	gtk_box_pack_start(GTK_BOX(hbox), mygroup, FALSE, FALSE, 0);
 	mygroup = my_entry::create_entry(ctr.mygroup,
-				    _("Please Input your Group name!"), FALSE);
+					 _("Please Input your Group name!"), FALSE);
 	gtk_box_pack_start(GTK_BOX(hbox), mygroup, TRUE, TRUE, 0);
 
 	hbox = create_box(FALSE);
@@ -125,8 +124,7 @@ void IptuxSetting::CreatePerson(GtkWidget * note)
 	myicon = CreateComboBoxWithModel(icon_model, ctr.myicon);
 	gtk_box_pack_start(GTK_BOX(hbox), myicon, TRUE, TRUE, 0);
 	button = create_button("...");
-	g_signal_connect_swapped(button, "clicked",
-				    G_CALLBACK(AddPalIcon), myicon);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(AddPalIcon), myicon);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
 	hbox = create_box(FALSE);
@@ -149,15 +147,13 @@ void IptuxSetting::CreatePerson(GtkWidget * note)
 	ad = gtk_image_new();
 	gtk_widget_show(ad);
 	gtk_container_add(GTK_CONTAINER(button), ad);
-	snprintf(path, MAX_PATHBUF, "%s" COMPLEX_PATH "/ad",
-					    g_get_user_config_dir());
-	if ( (pixbuf = gdk_pixbuf_new_from_file(path, NULL))) {
+	snprintf(path, MAX_PATHBUF, "%s" COMPLEX_PATH "/ad", g_get_user_config_dir());
+	if ((pixbuf = gdk_pixbuf_new_from_file(path, NULL))) {
 		pixbuf_shrink_scale_1(&pixbuf, MAX_PREVIEWSIZE, MAX_PREVIEWSIZE);
 		gtk_image_set_from_pixbuf(GTK_IMAGE(ad), pixbuf);
 		g_object_unref(pixbuf);
 	}
-	g_signal_connect_swapped(button, "clicked",
-			    G_CALLBACK(ChoosePortrait), ad);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ChoosePortrait), ad);
 
 	frame = create_frame(_("Sign Words:"));
 	gtk_box_pack_end(GTK_BOX(hbox), frame, TRUE, TRUE, 3);
@@ -166,7 +162,7 @@ void IptuxSetting::CreatePerson(GtkWidget * note)
 	sign = create_text_view();
 	gtk_container_add(GTK_CONTAINER(sw), sign);
 	gtk_text_buffer_set_text(gtk_text_view_get_buffer(GTK_TEXT_VIEW(sign)),
-						 ctr.sign ? ctr.sign : "", -1);
+				 ctr.sign ? ctr.sign : "", -1);
 }
 
 void IptuxSetting::CreateSystem(GtkWidget * note)
@@ -184,9 +180,8 @@ void IptuxSetting::CreateSystem(GtkWidget * note)
 	encode = create_label(_("System Default Encode:"));
 	gtk_box_pack_start(GTK_BOX(hbox), encode, FALSE, FALSE, 0);
 	encode = my_entry::create_entry(ctr.encode,
-			    _("(Before modified,"
-			    "be SURE to know what you are doing)"),
-			    FALSE);
+					_("(Before modified,"
+					  "be SURE to know what you are doing)"), FALSE);
 	gtk_box_pack_start(GTK_BOX(hbox), encode, TRUE, TRUE, 0);
 
 	hbox = create_box(FALSE);
@@ -196,8 +191,7 @@ void IptuxSetting::CreateSystem(GtkWidget * note)
 	palicon = CreateComboBoxWithModel(icon_model, ctr.palicon);
 	gtk_box_pack_start(GTK_BOX(hbox), palicon, TRUE, TRUE, 0);
 	button = create_button("...");
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(AddPalIcon), palicon);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(AddPalIcon), palicon);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
 	hbox = create_box(FALSE);
@@ -207,45 +201,35 @@ void IptuxSetting::CreateSystem(GtkWidget * note)
 	font = CreateFontChooser();
 	gtk_box_pack_start(GTK_BOX(hbox), font, TRUE, TRUE, 0);
 
-	memory = gtk_check_button_new_with_label(
-			_("Minimise Memory Usage(NOT Recommended)"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(memory),
-				     FLAG_ISSET(ctr.flags, 5));
+	memory =
+	    gtk_check_button_new_with_label(_("Minimise Memory Usage(NOT Recommended)"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(memory), FLAG_ISSET(ctr.flags, 5));
 	gtk_widget_show(memory);
 	gtk_box_pack_start(GTK_BOX(box), memory, FALSE, FALSE, 0);
 
-	etrkey = gtk_check_button_new_with_label(
-			_("Use 'Enter' to Send Message"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(etrkey),
-				     FLAG_ISSET(ctr.flags, 4));
+	etrkey = gtk_check_button_new_with_label(_("Use 'Enter' to Send Message"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(etrkey), FLAG_ISSET(ctr.flags, 4));
 	gtk_widget_show(etrkey);
 	gtk_box_pack_start(GTK_BOX(box), etrkey, FALSE, FALSE, 0);
 
-	tidy = gtk_check_button_new_with_label(
-		       _("Automaticlly Clean up Chatting History"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tidy),
-					     FLAG_ISSET(ctr.flags, 3));
+	tidy =
+	    gtk_check_button_new_with_label(_("Automaticlly Clean up Chatting History"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tidy), FLAG_ISSET(ctr.flags, 3));
 	gtk_widget_show(tidy);
 	gtk_box_pack_start(GTK_BOX(box), tidy, FALSE, FALSE, 0);
 
-	log = gtk_check_button_new_with_label(
-			      _("Log for the Messages."));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(log),
-				     FLAG_ISSET(ctr.flags, 2));
+	log = gtk_check_button_new_with_label(_("Log for the Messages."));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(log), FLAG_ISSET(ctr.flags, 2));
 	gtk_widget_show(log);
 	gtk_box_pack_start(GTK_BOX(box), log, FALSE, FALSE, 0);
 
-	black = gtk_check_button_new_with_label(
-			     _("Use Blacklist (NOT recommended)"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(black),
-				     FLAG_ISSET(ctr.flags, 1));
+	black = gtk_check_button_new_with_label(_("Use Blacklist (NOT recommended)"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(black), FLAG_ISSET(ctr.flags, 1));
 	gtk_widget_show(black);
 	gtk_box_pack_start(GTK_BOX(box), black, FALSE, FALSE, 0);
 
-	proof = gtk_check_button_new_with_label(
-			     _("Ignore Requests for Shared Files"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(proof),
-				     FLAG_ISSET(ctr.flags, 0));
+	proof = gtk_check_button_new_with_label(_("Ignore Requests for Shared Files"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(proof), FLAG_ISSET(ctr.flags, 0));
 	gtk_widget_show(proof);
 	gtk_box_pack_start(GTK_BOX(box), proof, FALSE, FALSE, 0);
 }
@@ -262,10 +246,8 @@ void IptuxSetting::CreateSound(GtkWidget * note)
 	label = create_label(_("Sound"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(note), box, label);
 
-	sound = gtk_check_button_new_with_label(
-			_("Sound Supported"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sound),
-				     FLAG_ISSET(ctr.sndfgs, 0));
+	sound = gtk_check_button_new_with_label(_("Sound Supported"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(sound), FLAG_ISSET(ctr.sndfgs, 0));
 	gtk_widget_show(sound);
 	gtk_box_pack_start(GTK_BOX(box), sound, FALSE, FALSE, 3);
 
@@ -299,18 +281,15 @@ void IptuxSetting::CreateSound(GtkWidget * note)
 	chooser = CreateSndChooser();
 	gtk_box_pack_start(GTK_BOX(hbox), chooser, TRUE, TRUE, 5);
 	button = create_button(_("Play"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(PlayTesting), chooser);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(PlayTesting), chooser);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	button = create_button(_("Stop"));
 	g_signal_connect(button, "clicked", G_CALLBACK(StopTesting), NULL);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	g_signal_connect(selection, "changed",
-			 G_CALLBACK(SelectItemChanged), chooser);
-	g_signal_connect(chooser, "file-set",
-			 G_CALLBACK(ChooserResetModel), selection);
+	g_signal_connect(selection, "changed", G_CALLBACK(SelectItemChanged), chooser);
+	g_signal_connect(chooser, "file-set", G_CALLBACK(ChooserResetModel), selection);
 }
 
 void IptuxSetting::CreateIpseg(GtkWidget * note)
@@ -340,13 +319,11 @@ void IptuxSetting::CreateIpseg(GtkWidget * note)
 	gtk_box_pack_start(GTK_BOX(box), hbox, FALSE, FALSE, 0);
 	snprintf(buf, MAX_BUF, "%s↓↓", _("Add"));
 	button = create_button(buf);
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(ClickAddIpseg), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ClickAddIpseg), this);
 	gtk_box_pack_end(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 	snprintf(buf, MAX_BUF, "%s↑↑", _("Delete"));
 	button = create_button(buf);
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(ClickDelIpseg), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ClickDelIpseg), this);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
 	frame = create_frame(_("Prefered IP section:"));
@@ -360,12 +337,10 @@ void IptuxSetting::CreateIpseg(GtkWidget * note)
 	vbox = create_box();
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 	button = create_button(_("Import"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(ImportNetSegment), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ImportNetSegment), this);
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
 	button = create_button(_("Export"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(ExportNetSegment), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ExportNetSegment), this);
 	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
 	button = create_button(_("Clear"));
 	g_signal_connect_swapped(button, "clicked",
@@ -381,8 +356,7 @@ void IptuxSetting::CreateFuncButton(GtkWidget * hbb)
 	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ClickOk), this);
 	gtk_box_pack_end(GTK_BOX(hbb), button, FALSE, FALSE, 1);
 	button = create_button(_("Apply"));
-	g_signal_connect_swapped(button, "clicked",
-				 G_CALLBACK(ClickApply), this);
+	g_signal_connect_swapped(button, "clicked", G_CALLBACK(ClickApply), this);
 	gtk_box_pack_end(GTK_BOX(hbb), button, FALSE, FALSE, 1);
 	button = create_button(_("Cancel"));
 	g_signal_connect_swapped(button, "clicked",
@@ -397,8 +371,7 @@ GtkTreeModel *IptuxSetting::CreateSndModel()
 	GtkListStore *model;
 	GtkTreeIter iter;
 
-	model = gtk_list_store_new(3, G_TYPE_BOOLEAN,
-				   G_TYPE_STRING, G_TYPE_STRING);
+	model = gtk_list_store_new(3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_list_store_append(model, &iter);
 	gtk_list_store_set(model, &iter, 0, FLAG_ISSET(ctr.sndfgs, 1),
 			   1, _("Message Received"), 2, ctr.msgtip, -1);
@@ -418,15 +391,14 @@ GtkTreeModel *IptuxSetting::CreateIpModel()
 	NetSegment *ns;
 	GSList *tmp;
 
-	model = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING,
-						   G_TYPE_STRING);
+	model = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 	pthread_mutex_lock(&ctr.mutex);
 	tmp = ctr.netseg;
 	while (tmp) {
 		ns = (NetSegment *) tmp->data;
 		gtk_list_store_append(model, &iter);
 		gtk_list_store_set(model, &iter, 0, ns->startip, 1, ns->endip,
-						   2, ns->describe, -1);
+				   2, ns->describe, -1);
 		tmp = tmp->next;
 	}
 	pthread_mutex_unlock(&ctr.mutex);
@@ -444,8 +416,7 @@ GtkWidget *IptuxSetting::CreateFontChooser()
 	gtk_font_button_set_show_size(GTK_FONT_BUTTON(chooser), TRUE);
 	gtk_font_button_set_use_font(GTK_FONT_BUTTON(chooser), TRUE);
 	gtk_font_button_set_use_size(GTK_FONT_BUTTON(chooser), TRUE);
-	gtk_font_button_set_title(GTK_FONT_BUTTON(chooser),
-						  _("Please choose a font"));
+	gtk_font_button_set_title(GTK_FONT_BUTTON(chooser), _("Please choose a font"));
 	gtk_widget_show(chooser);
 
 	return chooser;
@@ -475,7 +446,7 @@ GtkWidget *IptuxSetting::CreateSndView()
 
 	view = gtk_tree_view_new_with_model(snd_model);
 	g_signal_connect_swapped(view, "button-press-event",
-			 G_CALLBACK(DialogGroup::PopupPickMenu), snd_model);
+				 G_CALLBACK(DialogGroup::PopupPickMenu), snd_model);
 	gtk_widget_show(view);
 
 	column = gtk_tree_view_column_new();
@@ -485,7 +456,7 @@ GtkWidget *IptuxSetting::CreateSndView()
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes(column, renderer, "active", 0, NULL);
 	g_signal_connect_swapped(renderer, "toggled",
-			 G_CALLBACK(DialogGroup::ViewToggleChange), snd_model);
+				 G_CALLBACK(DialogGroup::ViewToggleChange), snd_model);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
 	column = gtk_tree_view_column_new();
@@ -563,9 +534,8 @@ GtkWidget *IptuxSetting::CreateArchiveChooser()
 	GtkWidget *chooser;
 
 	chooser = gtk_file_chooser_button_new(_("Save file to"),
-				      GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	gtk_file_chooser_set_do_overwrite_confirmation(
-				      GTK_FILE_CHOOSER(chooser), TRUE);
+					      GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(chooser), TRUE);
 	gtk_file_chooser_set_local_only(GTK_FILE_CHOOSER(chooser), TRUE);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), ctr.path);
 	gtk_widget_show(chooser);
@@ -588,13 +558,13 @@ GtkTreeModel *IptuxSetting::CreateIconModel()
 	while (tmp) {
 		si = (SysIcon *) tmp->data;
 		if (!si->pixbuf)
-			si->pixbuf = gdk_pixbuf_new_from_file_at_size(
-					   si->pathname, MAX_ICONSIZE,
-					   MAX_ICONSIZE, NULL);
+			si->pixbuf =
+			    gdk_pixbuf_new_from_file_at_size(si->pathname, MAX_ICONSIZE,
+							     MAX_ICONSIZE, NULL);
 		if (si->pixbuf) {
 			gtk_list_store_append(model, &iter);
 			gtk_list_store_set(model, &iter, 0, si->pixbuf,
-						   1, si->pathname, -1);
+					   1, si->pathname, -1);
 		}
 		tmp = tmp->next;
 	}
@@ -603,8 +573,7 @@ GtkTreeModel *IptuxSetting::CreateIconModel()
 	return GTK_TREE_MODEL(model);
 }
 
-GtkWidget *IptuxSetting::CreateComboBoxWithModel(GtkTreeModel * model,
-						 gchar * iconfile)
+GtkWidget *IptuxSetting::CreateComboBoxWithModel(GtkTreeModel * model, gchar * iconfile)
 {
 	GtkWidget *combo;
 	GtkCellRenderer *renderer;
@@ -614,7 +583,7 @@ GtkWidget *IptuxSetting::CreateComboBoxWithModel(GtkTreeModel * model,
 	renderer = gtk_cell_renderer_pixbuf_new();
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, FALSE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
-						       "pixbuf", 0, NULL);
+				       "pixbuf", 0, NULL);
 	gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(combo), 6);
 	active = FileGetItemPos(iconfile, model);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), active);
@@ -642,12 +611,12 @@ gint IptuxSetting::FileGetItemPos(const char *filename, GtkTreeModel * model)
 		} while (gtk_tree_model_iter_next(model, &iter));
 	}
 	if (access(filename, F_OK) != 0
-		   || !(pixbuf = gdk_pixbuf_new_from_file_at_size(filename,
-				MAX_ICONSIZE, MAX_ICONSIZE, NULL)))
+	    || !(pixbuf = gdk_pixbuf_new_from_file_at_size(filename,
+							   MAX_ICONSIZE, MAX_ICONSIZE,
+							   NULL)))
 		return -1;
 	gtk_list_store_append(GTK_LIST_STORE(model), &iter);
-	gtk_list_store_set(GTK_LIST_STORE(model), &iter, 0, pixbuf,
-						   1, filename, -1);
+	gtk_list_store_set(GTK_LIST_STORE(model), &iter, 0, pixbuf, 1, filename, -1);
 	g_object_unref(pixbuf);
 
 	return pos;
@@ -679,9 +648,10 @@ void IptuxSetting::ObtainPerson()
 	gtk_tree_model_get(icon_model, &iter, 1, &ctr.myicon, -1);
 	if (strncmp(ctr.myicon, __ICON_PATH, strlen(__ICON_PATH))) {
 		snprintf(buf, MAX_PATHBUF, "%s" COMPLEX_PATH "/icon",
-						 g_get_user_config_dir());
+			 g_get_user_config_dir());
 		pixbuf = gdk_pixbuf_new_from_file_at_size(ctr.myicon,
-					  MAX_ICONSIZE, MAX_ICONSIZE, NULL);
+							  MAX_ICONSIZE, MAX_ICONSIZE,
+							  NULL);
 		gdk_pixbuf_save(pixbuf, buf, "png", NULL, NULL);
 		g_object_unref(pixbuf), free(ctr.myicon);
 		ctr.myicon = Strdup(buf);
@@ -790,8 +760,7 @@ void IptuxSetting::ObtainIpseg()
 	NetSegment *ns;
 
 	pthread_mutex_lock(&ctr.mutex);
-	g_slist_foreach(ctr.netseg, GFunc(remove_foreach),
-			GINT_TO_POINTER(NETSEGMENT));
+	g_slist_foreach(ctr.netseg, GFunc(remove_foreach), GINT_TO_POINTER(NETSEGMENT));
 	g_slist_free(ctr.netseg), ctr.netseg = NULL;
 	if (gtk_tree_model_get_iter_first(ip_model, &iter)) {
 		do {
@@ -817,16 +786,14 @@ void IptuxSetting::UpdateMyInfo()
 	while (tmp) {
 		cmd.SendAbsence(inter.udpsock, tmp->data);
 		if (FLAG_ISSET(((Pal *) tmp->data)->FlagsQuote(), 0))
-			thread_create(ThreadFunc(Pal::SendFeature),
-					     tmp->data, false);
+			thread_create(ThreadFunc(Pal::SendFeature), tmp->data, false);
 		tmp = tmp->next;
 	}
 	pthread_mutex_unlock(udt.MutexQuote());
 }
 
 //写出 TRUE,读入 FALSE
-void IptuxSetting::UpdateNetSegment(const char *filename, GSList ** list,
-				    bool dirc)
+void IptuxSetting::UpdateNetSegment(const char *filename, GSList ** list, bool dirc)
 {
 	char buf[3][MAX_BUF], *ptr, *lineptr;
 	in_addr_t ipv4;
@@ -843,21 +810,21 @@ void IptuxSetting::UpdateNetSegment(const char *filename, GSList ** list,
 		while (tmp) {
 			ns = (NetSegment *) tmp->data;
 			fprintf(stream, "\n%s - %s\t//%s", ns->startip,
-						  ns->endip, ns->describe);
+				ns->endip, ns->describe);
 			tmp = tmp->next;
 		}
 	} else {
 		lineptr = NULL, n = 0;
 		while (getline(&lineptr, &n, stream) != -1) {
-			if ( (ptr = strchr(lineptr, '#')))
+			if ((ptr = strchr(lineptr, '#')))
 				*ptr = '\0';
 			buf[2][0] = '\0';
 			if (sscanf(lineptr, "%s - %s //%s", buf[0], buf[1], buf[2]) < 2
-				    || inet_pton(AF_INET, buf[0], &ipv4) <= 0
-				    || inet_pton(AF_INET, buf[1], &ipv4) <= 0)
+			    || inet_pton(AF_INET, buf[0], &ipv4) <= 0
+			    || inet_pton(AF_INET, buf[1], &ipv4) <= 0)
 				continue;
 			ns = new NetSegment(Strdup(buf[0]), Strdup(buf[1]),
-							    Strdup(buf[2]));
+					    Strdup(buf[2]));
 			*list = g_slist_append(*list, ns);
 		}
 		free(lineptr);
@@ -871,8 +838,7 @@ void IptuxSetting::AddPalIcon(GtkWidget * combo)
 	gchar *filename;
 	gint active;
 
-	if (!(filename = my_chooser::choose_file(
-			      _("Choose a Buddy Icon"), setting)))
+	if (!(filename = my_chooser::choose_file(_("Choose a Buddy Icon"), setting)))
 		return;
 	model = gtk_combo_box_get_model(GTK_COMBO_BOX(combo));
 	active = FileGetItemPos(filename, model);
@@ -885,24 +851,22 @@ void IptuxSetting::ChoosePortrait(GtkWidget * image)
 	gchar path[MAX_PATHBUF], *filename;
 	GdkPixbuf *pixbuf;
 
-	if (!(filename = my_chooser::choose_file(
-		      _("Choose Your Photo"), setting)))
+	if (!(filename = my_chooser::choose_file(_("Choose Your Photo"), setting)))
 		return;
 	pixbuf = gdk_pixbuf_new_from_file(filename, NULL);
 	g_free(filename);
 	if (pixbuf) {
 		snprintf(path, MAX_PATHBUF, "%s" COMPLEX_PATH "/ad",
-						 g_get_user_config_dir());
+			 g_get_user_config_dir());
 		pixbuf_shrink_scale_1(&pixbuf, MAX_ADSIZE, MAX_ADSIZE);
 		gdk_pixbuf_save(pixbuf, path, "bmp", NULL, NULL);	//命中率极高，不妨直接保存
-		pixbuf_shrink_scale_1(&pixbuf, MAX_PREVIEWSIZE,
-						      MAX_PREVIEWSIZE);
+		pixbuf_shrink_scale_1(&pixbuf, MAX_PREVIEWSIZE, MAX_PREVIEWSIZE);
 		gtk_image_set_from_pixbuf(GTK_IMAGE(image), pixbuf);
 		g_object_unref(pixbuf);
 	}
 }
 
-void IptuxSetting::AdjustSensitive(GtkWidget *sound, GtkWidget *widget)
+void IptuxSetting::AdjustSensitive(GtkWidget * sound, GtkWidget * widget)
 {
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(sound)))
 		gtk_widget_set_sensitive(widget, TRUE);
@@ -910,7 +874,7 @@ void IptuxSetting::AdjustSensitive(GtkWidget *sound, GtkWidget *widget)
 		gtk_widget_set_sensitive(widget, FALSE);
 }
 
-void IptuxSetting::AdjustVolume(GtkWidget *volume)
+void IptuxSetting::AdjustVolume(GtkWidget * volume)
 {
 	extern Sound sound;
 	gdouble value;
@@ -919,7 +883,7 @@ void IptuxSetting::AdjustVolume(GtkWidget *volume)
 	sound.AdjustVolume(value);
 }
 
-void IptuxSetting::SelectItemChanged(GtkTreeSelection *selection, GtkWidget *chooser)
+void IptuxSetting::SelectItemChanged(GtkTreeSelection * selection, GtkWidget * chooser)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -931,7 +895,7 @@ void IptuxSetting::SelectItemChanged(GtkTreeSelection *selection, GtkWidget *cho
 	g_free(path);
 }
 
-void IptuxSetting::ChooserResetModel(GtkWidget *chooser, GtkTreeSelection *selection)
+void IptuxSetting::ChooserResetModel(GtkWidget * chooser, GtkTreeSelection * selection)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -943,7 +907,7 @@ void IptuxSetting::ChooserResetModel(GtkWidget *chooser, GtkTreeSelection *selec
 	g_free(path);
 }
 
-void IptuxSetting::PlayTesting(GtkWidget *chooser)
+void IptuxSetting::PlayTesting(GtkWidget * chooser)
 {
 	extern Sound sound;
 	gchar *path;
@@ -972,15 +936,13 @@ void IptuxSetting::ClickAddIpseg(gpointer data)
 	text1 = gtk_entry_get_text(GTK_ENTRY(ipst->entry1));
 	status = inet_pton(AF_INET, text1, &ip1);
 	if (status <= 0) {
-		pop_warning(setting, NULL,
-			    _("\nAddress %s Unacceptable!"), text1);
+		pop_warning(setting, NULL, _("\nAddress %s Unacceptable!"), text1);
 		return;
 	}
 	text2 = gtk_entry_get_text(GTK_ENTRY(ipst->entry2));
 	status = inet_pton(AF_INET, text2, &ip2);
 	if (status <= 0) {
-		pop_warning(setting, NULL,
-			    _("\nAddress %s Unacceptable!"), text2);
+		pop_warning(setting, NULL, _("\nAddress %s Unacceptable!"), text2);
 		return;
 	}
 
@@ -992,8 +954,7 @@ void IptuxSetting::ClickAddIpseg(gpointer data)
 	}
 
 	gtk_list_store_append(GTK_LIST_STORE(ipst->ip_model), &iter);
-	gtk_list_store_set(GTK_LIST_STORE(ipst->ip_model), &iter,
-						   0, text1, 1, text2, -1);
+	gtk_list_store_set(GTK_LIST_STORE(ipst->ip_model), &iter, 0, text1, 1, text2, -1);
 	gtk_entry_set_text(GTK_ENTRY(ipst->entry1), "\0");
 	gtk_entry_set_text(GTK_ENTRY(ipst->entry2), "\0");
 }
@@ -1011,15 +972,13 @@ void IptuxSetting::ClickDelIpseg(gpointer data)
 		return;
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(ipst->ipseg_view));
 	do {
- mark:		if (gtk_tree_selection_iter_is_selected(selection, &iter))
-		{
+mark:		if (gtk_tree_selection_iter_is_selected(selection, &iter)) {
 			if (!flag) {
 				gtk_tree_model_get(ipst->ip_model, &iter, 0,
 						   &ipstr1, 1, &ipstr2, -1);
 				flag = true;
 			}
-			if (gtk_list_store_remove(
-			    GTK_LIST_STORE(ipst->ip_model), &iter))
+			if (gtk_list_store_remove(GTK_LIST_STORE(ipst->ip_model), &iter))
 				goto mark;
 			break;
 		}
@@ -1051,13 +1010,12 @@ void IptuxSetting::ImportNetSegment(gpointer data)
 	ipst = (IptuxSetting *) data, list = NULL;
 	gtk_list_store_clear(GTK_LIST_STORE(ipst->ip_model));
 	dialog = gtk_file_chooser_dialog_new(_("Choose the import file"),
-		     GTK_WINDOW(setting), GTK_FILE_CHOOSER_ACTION_OPEN,
-		     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_default_response(GTK_DIALOG(dialog),
-					     GTK_RESPONSE_ACCEPT);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
-						    g_get_home_dir());
+					     GTK_WINDOW(setting),
+					     GTK_FILE_CHOOSER_ACTION_OPEN,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), g_get_home_dir());
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
 		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
@@ -1071,8 +1029,7 @@ void IptuxSetting::ImportNetSegment(gpointer data)
 					   2, ns->describe, -1);
 			tmp = tmp->next;
 		}
-		g_slist_foreach(list, GFunc(remove_foreach),
-				GINT_TO_POINTER(NETSEGMENT));
+		g_slist_foreach(list, GFunc(remove_foreach), GINT_TO_POINTER(NETSEGMENT));
 		g_slist_free(list);
 	}
 	gtk_widget_destroy(dialog);
@@ -1089,13 +1046,12 @@ void IptuxSetting::ExportNetSegment(gpointer data)
 
 	ipst = (IptuxSetting *) data, list = NULL;
 	dialog = gtk_file_chooser_dialog_new(_("Save the export file"),
-		     GTK_WINDOW(setting), GTK_FILE_CHOOSER_ACTION_SAVE,
-		     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		     GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_default_response(GTK_DIALOG(dialog),
-					GTK_RESPONSE_ACCEPT);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog),
-					    g_get_home_dir());
+					     GTK_WINDOW(setting),
+					     GTK_FILE_CHOOSER_ACTION_SAVE,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), g_get_home_dir());
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT &&
 	    gtk_tree_model_get_iter_first(ipst->ip_model, &iter)) {
@@ -1109,8 +1065,7 @@ void IptuxSetting::ExportNetSegment(gpointer data)
 		} while (gtk_tree_model_iter_next(ipst->ip_model, &iter));
 		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 		ipst->UpdateNetSegment(filename, &list, true);
-		g_slist_foreach(list, GFunc(remove_foreach),
-				GINT_TO_POINTER(NETSEGMENT));
+		g_slist_foreach(list, GFunc(remove_foreach), GINT_TO_POINTER(NETSEGMENT));
 		g_free(filename), g_slist_free(list);
 	}
 	gtk_widget_destroy(dialog);

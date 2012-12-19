@@ -18,7 +18,7 @@
 #include "utils.h"
 #include "baling.h"
 
- RecvFile::RecvFile(gpointer data):filelist(NULL), file_model(NULL)
+RecvFile::RecvFile(gpointer data):filelist(NULL), file_model(NULL)
 {
 	pal = (Pal *) ((struct recvfile_para *)data)->data;
 	msg = ((struct recvfile_para *)data)->msg;
@@ -30,8 +30,7 @@
 RecvFile::~RecvFile()
 {
 	free(msg);
-	g_slist_foreach(filelist, GFunc(remove_foreach),
-				GINT_TO_POINTER(FILEINFO));
+	g_slist_foreach(filelist, GFunc(remove_foreach), GINT_TO_POINTER(FILEINFO));
 	g_slist_free(filelist);
 //      g_object_unref(file_model); //他处释放
 }
@@ -86,10 +85,9 @@ void RecvFile::CreateRecvWindow()
 	label = create_label("");
 	gtk_box_pack_end(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-	g_signal_connect(selection, "changed",
-				 G_CALLBACK(SelectItemChanged), chooser);
+	g_signal_connect(selection, "changed", G_CALLBACK(SelectItemChanged), chooser);
 	g_signal_connect(chooser, "current-folder-changed",
-				 G_CALLBACK(ChooserResetLabel), label);
+			 G_CALLBACK(ChooserResetLabel), label);
 	g_signal_connect(chooser, "current-folder-changed",
 			 G_CALLBACK(ChooserResetModel), selection);
 
@@ -175,7 +173,7 @@ GtkWidget *RecvFile::CreateRecvView()
 
 	view = gtk_tree_view_new_with_model(file_model);
 	g_signal_connect_swapped(view, "button-press-event",
-			 G_CALLBACK(DialogGroup::PopupPickMenu), file_model);
+				 G_CALLBACK(DialogGroup::PopupPickMenu), file_model);
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 	gtk_widget_show(view);
@@ -185,10 +183,9 @@ GtkWidget *RecvFile::CreateRecvView()
 	gtk_tree_view_column_set_title(column, _("receive"));
 	renderer = gtk_cell_renderer_toggle_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
-	gtk_tree_view_column_set_attributes(column, renderer,
-					    "active", 0, NULL);
+	gtk_tree_view_column_set_attributes(column, renderer, "active", 0, NULL);
 	g_signal_connect_swapped(renderer, "toggled",
-			 G_CALLBACK(DialogGroup::ViewToggleChange), file_model);
+				 G_CALLBACK(DialogGroup::ViewToggleChange), file_model);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
 	column = gtk_tree_view_column_new();
@@ -198,8 +195,7 @@ GtkWidget *RecvFile::CreateRecvView()
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes(column, renderer, "text", 1, NULL);
 	g_object_set(renderer, "editable", TRUE, NULL);
-	g_signal_connect(renderer, "edited",
-			 G_CALLBACK(CellEditText), file_model);
+	g_signal_connect(renderer, "edited", G_CALLBACK(CellEditText), file_model);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
 	column = gtk_tree_view_column_new();
@@ -238,7 +234,7 @@ void RecvFile::CellEditText(GtkCellRendererText * renderer, gchar * path,
 	gtk_list_store_set(GTK_LIST_STORE(model), &iter, 1, new_text, -1);
 }
 
-void RecvFile::SelectItemChanged(GtkTreeSelection *selection, GtkWidget *chooser)
+void RecvFile::SelectItemChanged(GtkTreeSelection * selection, GtkWidget * chooser)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -250,7 +246,7 @@ void RecvFile::SelectItemChanged(GtkTreeSelection *selection, GtkWidget *chooser
 	g_free(path);
 }
 
-void RecvFile::ChooserResetLabel(GtkWidget *chooser, GtkWidget *label)
+void RecvFile::ChooserResetLabel(GtkWidget * chooser, GtkWidget * label)
 {
 	uint64_t avail, total;
 	char buf[MAX_BUF], *path, *str_avail, *str_total;
@@ -265,7 +261,7 @@ void RecvFile::ChooserResetLabel(GtkWidget *chooser, GtkWidget *label)
 	gtk_label_set_label(GTK_LABEL(label), buf);
 }
 
-void RecvFile::ChooserResetModel(GtkWidget *chooser, GtkTreeSelection *selection)
+void RecvFile::ChooserResetModel(GtkWidget * chooser, GtkTreeSelection * selection)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -276,8 +272,8 @@ void RecvFile::ChooserResetModel(GtkWidget *chooser, GtkTreeSelection *selection
 		if (gtk_tree_model_get_iter_first(model, &iter)) {
 			do {
 				gtk_list_store_set(GTK_LIST_STORE(model), &iter,
-								  5, path, -1);
-			}  while (gtk_tree_model_iter_next(model, &iter));
+						   5, path, -1);
+			} while (gtk_tree_model_iter_next(model, &iter));
 		}
 	} else
 		gtk_list_store_set(GTK_LIST_STORE(model), &iter, 5, path, -1);
@@ -301,15 +297,14 @@ void RecvFile::AdditionRecvFile(GtkTreeModel * model)
 	pixbuf = gdk_pixbuf_new_from_file(__TIP_PATH "/recv.png", NULL);
 	do {
 		gtk_tree_model_get(model, &iter1, 0, &active, 1, &filename,
-				3, &filestr, 5, &path, 6, &packetn, 7, &fileid,
-				8, &filesize, 9, &fileattr, 10, &pal, -1);
+				   3, &filestr, 5, &path, 6, &packetn, 7, &fileid,
+				   8, &filesize, 9, &fileattr, 10, &pal, -1);
 		if (!active) {
 			g_free(filename), g_free(filestr), g_free(path);
 			continue;
 		}
 
-		gtk_list_store_append(GTK_LIST_STORE(trans.TransModelQuote()),
-							      &iter2);
+		gtk_list_store_append(GTK_LIST_STORE(trans.TransModelQuote()), &iter2);
 		gtk_list_store_set(GTK_LIST_STORE(trans.TransModelQuote()),
 				   &iter2, 0, pixbuf, 1, _("receive"),
 				   2, filename, 3, pal->NameQuote(), 4, "0B",

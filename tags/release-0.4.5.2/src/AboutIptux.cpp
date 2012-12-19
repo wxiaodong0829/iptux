@@ -71,8 +71,7 @@ void AboutIptux::CreateAbout()
 	gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(about), "GPL 2+");
 	gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about), authors);
 	gtk_about_dialog_set_artists(GTK_ABOUT_DIALOG(about), artists);
-	gtk_about_dialog_set_translator_credits(GTK_ABOUT_DIALOG(about),
-								translators);
+	gtk_about_dialog_set_translator_credits(GTK_ABOUT_DIALOG(about), translators);
 	pixbuf = gdk_pixbuf_new_from_file(__LOGO_PATH "/ip-tux.png", NULL);
 	if (pixbuf) {
 		gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), pixbuf);
@@ -82,7 +81,7 @@ void AboutIptux::CreateAbout()
 
 void AboutIptux::CreateMore()
 {
-	char *labels[] = {_("Help"), _("Contributers"), _("..."), NULL};
+	char *labels[] = { _("Help"), _("Contributers"), _("..."), NULL };
 	char *text[] = {
 		_("Project Home: \nhttp://code.google.com/p/iptux/\n\n"
 		  "User and Developer Group: \nhttps://groups.google.com/group/iptux/\n\n"
@@ -98,8 +97,7 @@ void AboutIptux::CreateMore()
 		  "<lidaobing@gmail.com>\n"
 		  "<mdjhu@sina.com>\n"
 		  "<omegao.hu@gmail.com>\n"
-		  "<syranosun@gmail.com>\n"
-		  "<weijian_li88@qq.com>"),
+		  "<syranosun@gmail.com>\n" "<weijian_li88@qq.com>"),
 		_("...")
 	};
 	GtkWidget *frame, *notebook, *sw, *label, *view;
@@ -107,15 +105,13 @@ void AboutIptux::CreateMore()
 	gint page;
 
 	more = gtk_dialog_new_with_buttons(_("More about iptux"),
-				   NULL, GTK_DIALOG_NO_SEPARATOR,
-				   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-				   NULL);
+					   NULL, GTK_DIALOG_NO_SEPARATOR,
+					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 	gtk_window_set_resizable(GTK_WINDOW(more), FALSE);
 	gtk_widget_set_size_request(more, 500, 350);
- 
+
 	frame = create_frame(NULL);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(more)->vbox),
-				   frame, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(more)->vbox), frame, TRUE, TRUE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(frame), 3);
 
 	notebook = gtk_notebook_new();
@@ -133,8 +129,8 @@ void AboutIptux::CreateMore()
 		gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(view), FALSE);
 		gtk_text_view_set_indent(GTK_TEXT_VIEW(view), 20);
 		gtk_text_view_set_pixels_inside_wrap(GTK_TEXT_VIEW(view), 5);
-		gtk_text_view_set_editable (GTK_TEXT_VIEW(view), FALSE);
-	
+		gtk_text_view_set_editable(GTK_TEXT_VIEW(view), FALSE);
+
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(view));
 		gtk_text_buffer_set_text(buffer, text[page], -1);
 
@@ -142,19 +138,16 @@ void AboutIptux::CreateMore()
 	}
 }
 
-void AboutIptux::RunDialog(GtkWidget **dialog)
+void AboutIptux::RunDialog(GtkWidget ** dialog)
 {
 	gtk_window_set_skip_taskbar_hint(GTK_WINDOW(*dialog), TRUE);
-	g_signal_connect(*dialog, "close",
-			  G_CALLBACK(gtk_widget_destroy), NULL);
-	g_signal_connect(*dialog, "response",
-			  G_CALLBACK(gtk_widget_destroy), NULL);
-	g_signal_connect_swapped(*dialog, "destroy",
-			  G_CALLBACK(DialogDestroy), dialog);
+	g_signal_connect(*dialog, "close", G_CALLBACK(gtk_widget_destroy), NULL);
+	g_signal_connect(*dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+	g_signal_connect_swapped(*dialog, "destroy", G_CALLBACK(DialogDestroy), dialog);
 	gtk_widget_show(*dialog);
 }
 
-bool AboutIptux::CheckExist(GtkWidget *dialog)
+bool AboutIptux::CheckExist(GtkWidget * dialog)
 {
 	if (!dialog)
 		return false;
@@ -162,14 +155,14 @@ bool AboutIptux::CheckExist(GtkWidget *dialog)
 	return true;
 }
 
-void AboutIptux::DialogDestroy(GtkWidget **dialog)
+void AboutIptux::DialogDestroy(GtkWidget ** dialog)
 {
 	*dialog = NULL;
 }
-void AboutIptux::DialogOpenUrl(GtkAboutDialog *about,
-	 const gchar *link_, gpointer data)
+
+void AboutIptux::DialogOpenUrl(GtkAboutDialog * about, const gchar * link_, gpointer data)
 {
-    g_print(link_); //for debug only
-    GdkScreen* screen = gdk_screen_get_default();
-    gtk_show_uri(screen, link_, GDK_CURRENT_TIME, NULL);
+	g_print(link_);		//for debug only
+	GdkScreen *screen = gdk_screen_get_default();
+	gtk_show_uri(screen, link_, GDK_CURRENT_TIME, NULL);
 }

@@ -15,12 +15,12 @@
 #include "Pal.h"
 
 class RecvFile {
- public:
+public:
 	RecvFile(gpointer data);	//struct recvfile_para
 	~RecvFile();
 
 	static void RecvEntry(gpointer data);	//
- private:
+private:
 	void ParseExtra();
 	void CreateRecvWindow();
 	gpointer DivideFileinfo(char **ptr);
@@ -34,14 +34,12 @@ class RecvFile {
 	GSList *filelist;
 	GtkTreeModel *file_model;
 //回调处理部分
- private:
+private:
 	static void CellEditText(GtkCellRendererText * renderer, gchar * path,
 				 gchar * new_text, GtkTreeModel * model);
-	static void SelectItemChanged(GtkTreeSelection *selection,
-				      GtkWidget *chooser);
-	static void ChooserResetLabel(GtkWidget *chooser, GtkWidget *label);
-	static void ChooserResetModel(GtkWidget *chooser,
-				      GtkTreeSelection *selection);
+	static void SelectItemChanged(GtkTreeSelection * selection, GtkWidget * chooser);
+	static void ChooserResetLabel(GtkWidget * chooser, GtkWidget * label);
+	static void ChooserResetModel(GtkWidget * chooser, GtkTreeSelection * selection);
 	static void AdditionRecvFile(GtkTreeModel * model);
 };
 

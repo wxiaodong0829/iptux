@@ -15,12 +15,12 @@
 #include "face.h"
 
 class DialogGroup {
- public:
+public:
 	DialogGroup();
 	~DialogGroup();
 
 	static void DialogEntry();
- private:
+private:
 	void InitDialog();
 	void CreateDialog();
 	GtkWidget *CreateMenuBar();
@@ -39,21 +39,19 @@ class DialogGroup {
 	GtkAccelGroup *accel;
 	GtkTreeModel *group_model;
 	static GtkWidget *dialog;
- private:
+private:
 	void BufferInsertText(const gchar * msg);
 	void SendGroupMsg(const gchar * msg);
 	void ViewScroll();
 	static GtkWidget *CreatePopupMenu(GtkTreeModel * model);
 //回调处理部分
- public:
+public:
 	/*参数 model:0 为toggle项 */
 	static void ViewToggleChange(GtkTreeModel * model, gchar * path);
-	static gboolean PopupPickMenu(GtkTreeModel * model,
-					      GdkEventButton * event);
- private:
-	 static void ViewItemActivated(GtkWidget * view, GtkTreePath * path,
-				      GtkTreeViewColumn * column,
-				      GtkTreeModel * model);
+	static gboolean PopupPickMenu(GtkTreeModel * model, GdkEventButton * event);
+private:
+	static void ViewItemActivated(GtkWidget * view, GtkTreePath * path,
+				      GtkTreeViewColumn * column, GtkTreeModel * model);
 
 	static void SendMessage(gpointer data);	//DialogGroup
 	static void UpdatePalList(gpointer data);	//

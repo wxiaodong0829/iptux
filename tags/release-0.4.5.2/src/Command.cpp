@@ -17,7 +17,7 @@
 #include "baling.h"
 
 uint32_t Command::packetn = 0;
- Command::Command():size(0)
+Command::Command():size(0)
 {
 }
 
@@ -59,8 +59,7 @@ void Command::DialUp(int sock)
 	GSList *list, *tmp;
 	SI addr;
 
-	CreateCommand(IPMSG_DIALUPOPT | IPMSG_ABSENCEOPT | IPMSG_BR_ENTRY,
-							      ctr.myname);
+	CreateCommand(IPMSG_DIALUPOPT | IPMSG_ABSENCEOPT | IPMSG_BR_ENTRY, ctr.myname);
 	TransferEncode(ctr.encode);
 	CreateIptuxExtra(ctr.encode);
 
@@ -82,8 +81,7 @@ void Command::DialUp(int sock)
 		}
 		tmp = tmp->next;
 	}
-	g_slist_foreach(list, GFunc(remove_foreach),
-			GINT_TO_POINTER(NETSEGMENT));
+	g_slist_foreach(list, GFunc(remove_foreach), GINT_TO_POINTER(NETSEGMENT));
 	g_slist_free(list);
 }
 
@@ -151,8 +149,7 @@ void Command::SendDetectPacket(int sock, in_addr_t ipv4)
 	extern Control ctr;
 	SI addr;
 
-	CreateCommand(IPMSG_DIALUPOPT | IPMSG_ABSENCEOPT | IPMSG_BR_ENTRY,
-							      ctr.myname);
+	CreateCommand(IPMSG_DIALUPOPT | IPMSG_ABSENCEOPT | IPMSG_BR_ENTRY, ctr.myname);
 	TransferEncode(ctr.encode);
 	CreateIptuxExtra(ctr.encode);
 
@@ -191,10 +188,10 @@ void Command::SendMessage(int sock, pointer data, const char *msg)
 	} while (!pal->CheckReply(packetno, false) && count < MAX_RETRYTIMES);
 	if (count >= MAX_RETRYTIMES) {
 		chiplist = g_slist_append(NULL, new ChipData(STRING,
-			  _("It's offline, or not receive the data packet!")));
+							     _
+							     ("It's offline, or not receive the data packet!")));
 		pal->BufferInsertData(chiplist, ERROR);
-		g_slist_foreach(chiplist, GFunc(remove_foreach),
-				GINT_TO_POINTER(UNKNOWN));	//静态内存，不需析构释放
+		g_slist_foreach(chiplist, GFunc(remove_foreach), GINT_TO_POINTER(UNKNOWN));	//静态内存，不需析构释放
 		g_slist_free(chiplist);
 	}
 }
@@ -240,13 +237,13 @@ void Command::SendGroupMsg(int sock, pointer data, const char *msg)
 bool Command::SendAskData(int sock, pointer data, uint32_t packetno,
 			  uint32_t fileid, uint64_t offset)
 {
-	char attrstr[43];	//10+1+10+1+20 +1	=43
+	char attrstr[43];	//10+1+10+1+20 +1       =43
 	Pal *pal;
 	SI addr;
 
 	pal = (Pal *) data;
 	snprintf(attrstr, 43, "%" PRIx32 ":%" PRIx32 ":%" PRIx64,
-						 packetno, fileid, offset);
+		 packetno, fileid, offset);
 	CreateCommand(IPMSG_FILEATTACHOPT | IPMSG_GETFILEDATA, attrstr);
 	TransferEncode(pal->EncodeQuote());
 
@@ -263,10 +260,9 @@ bool Command::SendAskData(int sock, pointer data, uint32_t packetno,
 	return true;
 }
 
-bool Command::SendAskFiles(int sock, pointer data, uint32_t packetno,
-			   uint32_t fileid)
+bool Command::SendAskFiles(int sock, pointer data, uint32_t packetno, uint32_t fileid)
 {
-	char attrstr[24];	//10+1+10+1+1 +1	=24
+	char attrstr[24];	//10+1+10+1+1 +1        =24
 	Pal *pal;
 	SI addr;
 
@@ -288,8 +284,7 @@ bool Command::SendAskFiles(int sock, pointer data, uint32_t packetno,
 	return true;
 }
 
-void Command::SendAskShared(int sock, pointer data, uint32_t opttype,
-			    const char *extra)
+void Command::SendAskShared(int sock, pointer data, uint32_t opttype, const char *extra)
 {
 	Pal *pal;
 	SI addr;
@@ -306,8 +301,7 @@ void Command::SendAskShared(int sock, pointer data, uint32_t opttype,
 	sendto(sock, buf, size, 0, (SA *) & addr, sizeof(addr));
 }
 
-void Command::SendFileInfo(int sock, pointer data, uint32_t opttype,
-			    const char *extra)
+void Command::SendFileInfo(int sock, pointer data, uint32_t opttype, const char *extra)
 {
 	char *ptr;
 	Pal *pal;
@@ -364,8 +358,7 @@ void Command::SendMySign(int sock, pointer data)
 	sendto(sock, buf, size, 0, (SA *) & addr, sizeof(addr));
 }
 
-void Command::SendSublayer(int sock, pointer data, uint32_t opttype,
-			   const char *path)
+void Command::SendSublayer(int sock, pointer data, uint32_t opttype, const char *path)
 {
 	Pal *pal;
 	SI addr;
@@ -381,8 +374,7 @@ void Command::SendSublayer(int sock, pointer data, uint32_t opttype,
 	addr.sin_addr.s_addr = pal->Ipv4Quote();
 
 	if (Connect(sock, (SA *) & addr, sizeof(addr)) == -1
-		   || Write(sock, buf, size) == -1
-		   || (fd = Open(path, O_RDONLY)) == -1)
+	    || Write(sock, buf, size) == -1 || (fd = Open(path, O_RDONLY)) == -1)
 		return;
 
 	SendSublayerData(sock, fd);
@@ -471,7 +463,7 @@ void Command::CreateIpmsgExtra(const char *extra)
 
 	ptr = buf + size;
 	snprintf(ptr, MAX_UDPBUF - size, "%s", extra);
-	if ( (tmp = strrchr(ptr, '\a')))
+	if ((tmp = strrchr(ptr, '\a')))
 		*(tmp + 1) = '\0';
 	size += strlen(ptr) + 1;
 }

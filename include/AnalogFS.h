@@ -43,6 +43,7 @@ private:
 public:
 	 inline char *cwd() {
 		return path;
-}};
+	}
+};
 
 #endif

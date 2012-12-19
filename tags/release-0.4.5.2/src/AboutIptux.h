@@ -15,25 +15,25 @@
 #include "face.h"
 
 class AboutIptux {
- public:
+public:
 	AboutIptux();
 	~AboutIptux();
 
 	static void AboutEntry();
 	static void MoreEntry();
- private:
+private:
 	void CreateAbout();
 	void CreateMore();
-	void RunDialog(GtkWidget **dialog);
-	static bool CheckExist(GtkWidget *dialog);
+	void RunDialog(GtkWidget ** dialog);
+	static bool CheckExist(GtkWidget * dialog);
 
 	static GtkWidget *about;
 	static GtkWidget *more;
 //回调处理部分
- private:
-	static void DialogDestroy(GtkWidget **dialog);
-	static void DialogOpenUrl(GtkAboutDialog *about,
-	 const gchar *link_, gpointer data);
+private:
+	static void DialogDestroy(GtkWidget ** dialog);
+	static void DialogOpenUrl(GtkAboutDialog * about,
+				  const gchar * link_, gpointer data);
 };
 
 #endif

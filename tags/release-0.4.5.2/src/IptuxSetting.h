@@ -15,12 +15,12 @@
 #include "udt.h"
 
 class IptuxSetting {
- public:
+public:
 	IptuxSetting();
 	~IptuxSetting();
 
 	static void SettingEntry();
- private:
+private:
 	void InitSetting();
 	void CreateSetting();
 	void CreatePerson(GtkWidget * note);
@@ -38,18 +38,16 @@ class IptuxSetting {
 
 	GtkTreeModel *icon_model, *snd_model, *ip_model;
 	GtkWidget *myname, *mygroup, *myicon, *save_path, *ad, *sign;
-	GtkWidget *encode, *palicon, *font, *memory, *etrkey, *tidy,
-						 *log, *black, *proof;
+	GtkWidget *encode, *palicon, *font, *memory, *etrkey, *tidy, *log, *black, *proof;
 	GtkWidget *sound, *volume;
 	GtkWidget *entry1, *entry2, *ipseg_view;
 	static GtkWidget *setting;
- public:
+public:
 	static GtkWidget *CreateArchiveChooser();
 	static GtkTreeModel *CreateIconModel();
-	static GtkWidget *CreateComboBoxWithModel(GtkTreeModel * model,
-						  gchar * iconfile);
+	static GtkWidget *CreateComboBoxWithModel(GtkTreeModel * model, gchar * iconfile);
 	static gint FileGetItemPos(const char *filename, GtkTreeModel * model);
- private:
+private:
 	void ObtainPerson();
 	void ObtainSystem();
 	void ObtainSound();
@@ -57,18 +55,16 @@ class IptuxSetting {
 	void UpdateMyInfo();
 	void UpdateNetSegment(const char *filename, GSList ** list, bool dirc);
 //回调处理部分
- public:
+public:
 	static void AddPalIcon(GtkWidget * combo);
- private:
-	 static void ChoosePortrait(GtkWidget * image);
+private:
+	static void ChoosePortrait(GtkWidget * image);
 
-	static void AdjustSensitive(GtkWidget *sound, GtkWidget *widget);
-	static void AdjustVolume(GtkWidget *volume);
-	static void SelectItemChanged(GtkTreeSelection *selection,
-				      GtkWidget *chooser);
-	static void ChooserResetModel(GtkWidget *chooser,
-				      GtkTreeSelection *selection);
-	static void PlayTesting(GtkWidget *chooser);
+	static void AdjustSensitive(GtkWidget * sound, GtkWidget * widget);
+	static void AdjustVolume(GtkWidget * volume);
+	static void SelectItemChanged(GtkTreeSelection * selection, GtkWidget * chooser);
+	static void ChooserResetModel(GtkWidget * chooser, GtkTreeSelection * selection);
+	static void PlayTesting(GtkWidget * chooser);
 	static void StopTesting();
 
 	static void ClickAddIpseg(gpointer data);	//IptuxSetting

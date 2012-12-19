@@ -395,10 +395,7 @@ int64_t RecvFileData::RecvData(int sock, int fd, int64_t filesize, int64_t offse
 						 g_strdup_printf("%.1f", progress),
 						 GDestroyNotify(g_free));
 			g_datalist_set_data_full(&para, "cost", numeric_to_time((uint32_t)
-										(difftimeval
-										 (val2,
-										  filetime))),
-						 GDestroyNotify(g_free));
+										(difftimeval(val2, filetime))), GDestroyNotify(g_free));
 			g_datalist_set_data_full(&para, "remain",
 						 numeric_to_time((uint32_t)
 								 ((filesize -

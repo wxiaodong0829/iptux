@@ -23,7 +23,7 @@ void my_delay(time_t sec, long nsec)
 	nanosleep(&delay, NULL);
 }
 
-void ipv4_order(uint32_t *ip1, uint32_t *ip2)
+void ipv4_order(uint32_t * ip1, uint32_t * ip2)
 {
 	uint32_t ip;
 
@@ -84,7 +84,7 @@ pthread_t thread_create(ThreadFunc func, pointer data, bool joinable)
 	return pid;
 }
 
-void get_file_system_info(const char *path, uint64_t *avail, uint64_t *total)
+void get_file_system_info(const char *path, uint64_t * avail, uint64_t * total)
 {
 	struct statfs64 st;
 	int result;
@@ -95,8 +95,8 @@ mark:	result = statfs64(path, &st);
 			goto mark;
 		*avail = *total = 0;
 	} else {
-		*avail = (uint64_t)st.f_bsize * st.f_bavail;
-		*total = (uint64_t)st.f_bsize * st.f_blocks;
+		*avail = (uint64_t) st.f_bsize * st.f_bavail;
+		*total = (uint64_t) st.f_bsize * st.f_blocks;
 	}
 }
 
@@ -109,8 +109,7 @@ char *my_getline(const char *str)
 	while (*str == '\x20' || *str == '\t')
 		str++;
 
-	if ( (len = (ptr = strpbrk(str, "\r\n")) ?
-		     (ptr - str) : strlen(str))) {
+	if ((len = (ptr = strpbrk(str, "\r\n")) ? (ptr - str) : strlen(str))) {
 		dst = (char *)Malloc(len + 1);
 		memcpy(dst, str, len);
 		*(dst + len) = '\0';
@@ -125,7 +124,7 @@ int strnchr(const char *str, char chr)
 	int count;
 
 	count = 0;
-	while ( (str = strchr(str, chr)))
+	while ((str = strchr(str, chr)))
 		str++, count++;
 
 	return count;
@@ -138,7 +137,7 @@ void remove_foreach(pointer data, enum INFO_TYPE type)
 		delete(Pal *) data;
 		break;
 	case SYSICON:
-		delete(SysIcon*) data;
+		delete(SysIcon *) data;
 		break;
 	case FILEINFO:
 		delete(FileInfo *) data;
@@ -186,14 +185,11 @@ char *number_to_string_size(uint64_t number, bool rate)
 	gchar *buf;
 
 	if (number >= (1 << 30))
-		buf =
-		    g_strdup_printf("%.1fG\x20\x20", (float)number / (1 << 30));
+		buf = g_strdup_printf("%.1fG\x20\x20", (float)number / (1 << 30));
 	else if (number >= (1 << 20))
-		buf =
-		    g_strdup_printf("%.1fM\x20\x20", (float)number / (1 << 20));
+		buf = g_strdup_printf("%.1fM\x20\x20", (float)number / (1 << 20));
 	else if (number >= (1 << 10))
-		buf =
-		    g_strdup_printf("%.1fK\x20\x20", (float)number / (1 << 10));
+		buf = g_strdup_printf("%.1fK\x20\x20", (float)number / (1 << 10));
 	else
 		buf = g_strdup_printf("%" PRIu64 "B\x20\x20", number);
 
@@ -213,7 +209,7 @@ const char *iptux_skip_string(const char *msg, size_t size, uint8_t times)
 	ptr = msg, count = 0;
 	while (count < times) {
 		ptr += strlen(ptr) + 1;
-		if ((size_t)(ptr - msg) < size)
+		if ((size_t) (ptr - msg) < size)
 			count++;
 		else
 			return NULL;
@@ -290,7 +286,7 @@ char *iptux_get_section_string(const char *msg, uint8_t times)
 
 	if (!(ptr = iptux_skip_section(msg, times)))
 		return NULL;
-	if ( (pptr = strchr(ptr, ':')))
+	if ((pptr = strchr(ptr, ':')))
 		len = pptr - ptr;
 	else
 		len = strlen(ptr);

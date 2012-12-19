@@ -135,8 +135,7 @@ private:
 public:
 	 inline int &TcpSockQuote() {
 		return tcpsock;
-	}
-	inline int &UdpSockQuote() {
+	} inline int &UdpSockQuote() {
 		return udpsock;
 	}
 	inline uint32_t & PbnQuote() {
